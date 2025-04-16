@@ -1,10 +1,10 @@
 <?php
+// Koneksi ke database
 $host = "localhost";
-$user = "root"; // Sesuaikan dengan username database
-$pass = ""; // Kosongkan jika tidak ada password
+$user = "root";
+$pass = "";
 $db   = "outfit_mate";
 
-// Koneksi ke database
 $conn = new mysqli($host, $user, $pass, $db);
 
 // Cek koneksi
@@ -12,16 +12,25 @@ if ($conn->connect_error) {
     die("Koneksi gagal: " . $conn->connect_error);
 }
 
-//ambil data Dari from
-$user = $_POST['email'];
-$pass = $_POST['password'];
+// Ambil data dari form
+$email = $_POST['email'];
+$password = $_POST['password'];
 
-// Query untuk insert data
-$sql = "INSERT INTO users (email, password)
-        VALUES ('$user', '$pass')";
-if ($conn->query($sql) === TRUE) {
-    echo "Order berhasil!";
+// Escape input
+$email = $conn->real_escape_string($email);
+$password = $conn->real_escape_string($password);
+
+// Cek data di database
+$sql = "SELECT * FROM users WHERE email = '$email' AND password = '$password'";
+$result = $conn->query($sql);
+
+if ($result->num_rows > 0) {
+    echo "Login berhasil! Selamat datang 💖";
+    // Bisa redirect ke halaman lain juga, misalnya:
+    // header("Location: dashboard.php");
 } else {
-    echo "Error: " . $sql . "<br>" . $conn->error;
+    echo "Email atau password salah! 😢";
 }
+
+$conn->close();
 ?>

@@ -14,34 +14,34 @@
             </div>
             <div class="register-form">
                 <h2>Buat Akun Baru</h2>
-                <form action="#" method="post">
+                <form action="register.php" method="POST">
                     <div class="input-row">
                         <div class="input-group">
                             <label for="first-name">Nama Depan</label>
-                            <input type="text" id="first-name" placeholder="Nama depan" required>
+                            <input type="text" name="firstname" id="first_name" placeholder="Nama depan" required>
                         </div>
                         <div class="input-group">
                             <label for="last-name">Nama Belakang</label>
-                            <input type="text" id="last-name" placeholder="Nama belakang" required>
+                            <input type="text" name="lastname" id="last_name" placeholder="Nama belakang" required>
                         </div>
                     </div>
                     <div class="input-group">
                         <label for="email">Email</label>
-                        <input type="email" id="email" placeholder="Masukkan email Anda" required>
+                        <input type="email" name="email" id="email" placeholder="Masukkan email Anda" required>
                     </div>
                     <div class="input-group">
                         <label for="password">Kata Sandi</label>
-                        <input type="password" id="password" placeholder="Buat kata sandi" required>
+                        <input type="password" name="password" id="password" placeholder="Buat kata sandi" required>
                         <div class="password-requirements">
                             Minimal 8 karakter dengan kombinasi huruf, angka, dan simbol
                         </div>
                     </div>
                     <div class="input-group">
                         <label for="confirm-password">Konfirmasi Kata Sandi</label>
-                        <input type="password" id="confirm-password" placeholder="Konfirmasi kata sandi" required>
+                        <input type="password" name="confirm_password" id="confirm-password" placeholder="Konfirmasi kata sandi" required>
                     </div>
                     <div class="terms">
-                        <input type="checkbox" id="terms" required>
+                        <input type="checkbox" name="terms" id="terms" required>
                         <label for="terms">
                             Saya menyetujui <a href="#">Syarat & Ketentuan</a> dan <a href="#">Kebijakan Privasi</a>
                         </label>

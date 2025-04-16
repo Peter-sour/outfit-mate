@@ -3,7 +3,7 @@
 $host = "localhost";
 $user = "root";
 $password = "";
-$database = "outfit-mate";
+$database = "outfit_mate";
 
 // Membuat koneksi
 $conn = new mysqli($host, $user, $password, $database);
@@ -14,8 +14,8 @@ if ($conn->connect_error) {
 }
 
 // Ambil data dari form
-$first_name = $_POST['first_name'];
-$last_name = $_POST['last_name'];
+$first_name = $_POST['firstname'];
+$last_name = $_POST['lastname'];
 $email = $_POST['email'];
 $password = $_POST['password'];
 $confirm_password = $_POST['confirm_password'];
@@ -25,22 +25,28 @@ if ($password !== $confirm_password) {
     die("Kata sandi dan konfirmasi tidak cocok!");
 }
 
-// Cegah SQL Injection
+// Escape string
 $first_name = $conn->real_escape_string($first_name);
 $last_name = $conn->real_escape_string($last_name);
 $email = $conn->real_escape_string($email);
-$password = md5($conn->real_escape_string($password)); // Hash MD5 (disarankan upgrade ke bcrypt)
+$password = $conn->real_escape_string($password); // Tidak di-hash
 
-// Simpan ke database
-$sql = "INSERT INTO users (first_name, last_name, email, password) 
-        VALUES ('$first_name', '$last_name', '$email', '$password')";
+// Cek apakah email sudah terdaftar
+$cek = "SELECT id FROM users WHERE email = '$email'";
+$result = $conn->query($cek);
 
-if ($conn->query($sql) === TRUE) {
-    echo "Registrasi berhasil!";
-    // Redirect ke login (opsional)
-    // header("Location: login.html");
+if ($result->num_rows > 0) {
+    die("Email sudah terdaftar. Silakan gunakan email lain.");
 } else {
-    echo "Error: " . $sql . "<br>" . $conn->error;
+    // Simpan ke database
+    $sql = "INSERT INTO users (firstname, lastname, email, password) 
+            VALUES ('$first_name', '$last_name', '$email', '$password')";
+
+    if ($conn->query($sql) === TRUE) {
+        echo "Registrasi berhasil!";
+    } else {
+        echo "Error: " . $sql . "<br>" . $conn->error;
+    }
 }
 
 $conn->close();
