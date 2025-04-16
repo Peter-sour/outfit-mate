@@ -32,7 +32,8 @@ $email = $conn->real_escape_string($email);
 $password = md5($conn->real_escape_string($password)); // Hash MD5 (disarankan upgrade ke bcrypt)
 
 // Simpan ke database
-$sql = "INSERT INTO users (first_name, last_name, email, password) VALUES ('$first_name', '$last_name', '$email', '$password')";
+$sql = "INSERT INTO users (first_name, last_name, email, password) 
+        VALUES ('$first_name', '$last_name', '$email', '$password')";
 
 if ($conn->query($sql) === TRUE) {
     echo "Registrasi berhasil!";
