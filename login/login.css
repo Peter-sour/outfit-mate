@@ -13,13 +13,11 @@ body {
     height: 100vh;
     background-image: linear-gradient(135deg, #141e30 0%, #243b55 100%);
 }
-
 .container {
     width: 100%;
     max-width: 500px;
     padding: 0px;
 }
-
 .login-card {
     background-color: #ffffff;
     border-radius: 10px;
@@ -28,7 +26,6 @@ body {
     text-align: center;
     height: auto;
 }
-
 .logo {
     margin-bottom: 30px;
 }
