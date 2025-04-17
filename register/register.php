@@ -43,7 +43,7 @@ if ($result->num_rows > 0) {
             VALUES ('$first_name', '$last_name', '$email', '$password')";
 
     if ($conn->query($sql) === TRUE) {
-        echo "Registrasi berhasil!";
+        echo "<script>alert('Pendaftaran berhasil! Silakan login kembali. '); window.location.href = '../login/login.html';</script>";
     } else {
         echo "Error: " . $sql . "<br>" . $conn->error;
     }

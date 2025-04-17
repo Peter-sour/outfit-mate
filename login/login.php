@@ -1,4 +1,13 @@
 <?php
+// Hancurkan sesi lama dulu jika ada
+session_start();
+session_unset();
+session_destroy();
+
+// Mulai sesi baru
+session_start();
+session_regenerate_id(true); // Cegah session fixation
+
 // Koneksi ke database
 $host = "localhost";
 $user = "root";
@@ -21,16 +30,27 @@ $email = $conn->real_escape_string($email);
 $password = $conn->real_escape_string($password);
 
 // Cek data di database
-$sql = "SELECT * FROM users WHERE email = '$email' AND password = '$password'";
+session_start(); // Tambahkan di atas kalau belum ada
+
+$sql = "SELECT firstname, password FROM users WHERE email = '$email'";
 $result = $conn->query($sql);
 
 if ($result->num_rows > 0) {
-    echo "Login berhasil! Selamat datang 💖";
-    // Bisa redirect ke halaman lain juga, misalnya:
-    // header("Location: dashboard.php");
+    $row = $result->fetch_assoc();
+
+    if ($password === $row['password']) { // Kalau belum pakai hashing
+        $_SESSION['user'] = $row['firstname']; // Simpan nama depan ke session
+
+        // Redirect ke dashboard PHP (bukan HTML)
+        header("Location: ../dasboard/das.php");
+        exit;
+    } else {
+        echo "Password salah! 😢";
+    }
 } else {
-    echo "Email atau password salah! 😢";
+    echo "Email tidak ditemukan! 😢";
 }
+
 
 $conn->close();
 ?>
