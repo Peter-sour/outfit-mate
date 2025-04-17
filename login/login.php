@@ -1,9 +1,4 @@
 <?php
-// Hancurkan sesi lama dulu jika ada
-session_start();
-session_unset();
-session_destroy();
-
 // Mulai sesi baru
 session_start();
 session_regenerate_id(true); // Cegah session fixation
