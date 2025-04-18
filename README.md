@@ -137,7 +137,7 @@ We'd love to hear from you! Feel free to reach out with any questions or feedbac
 ## 📊 GitHub Activity & Stats
 
 ### 🔥 Contribution Graph
-![GitHub Activity Graph](https://github-readme-activity-graph.cyclic.app/graph?username=Peter-sour&theme=react-dark)
+![GitHub Activity Graph](https://github-readme-activity-graph.vercel.app/graph?username=Peter-sour&theme=tokyo-night)
 
 ### 🚀 GitHub Stats
 ![Peter-sour GitHub Stats](https://github-readme-stats.vercel.app/api?username=Peter-sour&show_icons=true&theme=radical)
