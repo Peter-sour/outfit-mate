@@ -132,7 +132,7 @@ We'd love to hear from you! Feel free to reach out with any questions or feedbac
 - **HTML/CSS/JS** for the frontend.
 - **Bootstrap** for responsive design.
 
-![Top Languages](https://github-readme-stats.vercel.app/api/top-langs/?username=Peter-sour&hide=html&layout=compact)
+
 
 ## 📊 GitHub Activity & Stats
 
