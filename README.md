@@ -133,3 +133,18 @@ We'd love to hear from you! Feel free to reach out with any questions or feedbac
 - **Bootstrap** for responsive design.
 
 ![Top Languages](https://github-readme-stats.vercel.app/api/top-langs/?username=Peter-sour&hide=html&layout=compact)
+
+## 📊 GitHub Activity & Stats
+
+### 🔥 Contribution Graph
+![GitHub Activity Graph](https://github-readme-activity-graph.cyclic.app/graph?username=Peter-sour&theme=react-dark)
+
+### 🚀 GitHub Stats
+![Peter-sour GitHub Stats](https://github-readme-stats.vercel.app/api?username=Peter-sour&show_icons=true&theme=radical)
+
+### 🧠 Most Used Languages
+![Top Langs](https://github-readme-stats.vercel.app/api/top-langs/?username=Peter-sour&layout=compact&theme=tokyonight)
+
+### ⏱️ GitHub Streak
+[![GitHub Streak](https://streak-stats.demolab.com?user=Peter-sour&theme=dark)](https://git.io/streak-stats)
+
