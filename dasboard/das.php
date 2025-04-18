@@ -5,8 +5,50 @@ if (!isset($_SESSION['user'])) {
     header("Location: ../login/login.html");
     exit;
 }
-?>
 
+$apiKey = "ed74b9f8b107607666e6e7a849dc41c8"; // Ganti API Key
+$lat = $_GET['lat'] ?? null ;  // default Jakarta
+$lon = $_GET['lon'] ?? null ;
+$cacheFile = 'cuaca-cache.json';
+$cacheKey = md5($lat . $lon);
+$cacheTime = 600; // 10 menit
+
+$data = null;
+
+if (file_exists($cacheFile)) {
+    $allCache = json_decode(file_get_contents($cacheFile), true);
+    if (isset($allCache[$cacheKey]) && (time() - $allCache[$cacheKey]['timestamp'] < $cacheTime)) {
+        $data = $allCache[$cacheKey]['data'];
+    }
+}
+
+if (!$data) {
+    $url = "https://api.openweathermap.org/data/2.5/weather?lat=$lat&lon=$lon&appid=$apiKey&units=metric&lang=id";
+    $response = file_get_contents($url);
+    $json = json_decode($response, true);
+
+    $data = [
+        "temp" => round($json['main']['temp']),
+        "feels_like" => round($json['main']['feels_like']),
+        "humidity" => $json['main']['humidity'],
+        "wind_speed" => $json['wind']['speed'],
+        "description" => ucwords($json['weather'][0]['description']),
+        "icon" => $json['weather'][0]['main'],
+        "city" => $json['name'],
+        "date" => date('l, j F')
+    ];
+
+    $allCache[$cacheKey] = [
+        "timestamp" => time(),
+        "data" => $data
+    ];
+    file_put_contents($cacheFile, json_encode($allCache));
+}
+
+// Data ke variabel
+extract($data);
+
+?>
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -108,7 +150,7 @@ if (!isset($_SESSION['user'])) {
           </div>
           <div class="outfit-card">
             <div class="outfit-image">
-              <img src="/api/placeholder/300/200" alt="Outfit Formal">
+              <img src="#" alt="Outfit Formal">
             </div>
             <div class="outfit-info">
               <h3>Business Meeting</h3>
@@ -168,29 +210,31 @@ if (!isset($_SESSION['user'])) {
           <div class="weather-card">
             <div class="weather-card-header">
               <div>
-                <h3>Jakarta</h3>
-                <p>Selasa, 17 April</p>
+                <!-- <h3>Jakarta</h3>
+                <p>Selasa, 17 April</p> -->
+                <h3><?= $city ?></h3>
+                <p><?= $date ?></p>
               </div>
               <div class="weather-icon">
                 ☀️
               </div>
             </div>
             <div class="weather-temperature">
-              29°C
+              <?= $temp ?>°C
             </div>
             <p>Cerah Berawan</p>
             <div class="weather-details">
               <div class="weather-detail">
                 💧
-                <span>70% Kelembaban</span>
+                <span><?= $humidity ?>% Kelembaban</span>
               </div>
               <div class="weather-detail">
                 💨
-                <span>10 km/j Angin</span>
+                <span><?= $wind_speed ?> km/j Angin</span>
               </div>
               <div class="weather-detail">
                 🌡️
-                <span>Terasa seperti 32°C</span>
+                <span>Terasa seperti <?= $feels_like ?>°C</span>
               </div>
             </div>
           </div>
@@ -319,5 +363,29 @@ if (!isset($_SESSION['user'])) {
     </div>
   </footer>
   <script src="das.js"></script>
+  <script>
+     // Cek apakah URL sudah punya koordinat
+  const urlParams = new URLSearchParams(window.location.search);
+  const lat = urlParams.get("lat");
+  const lon = urlParams.get("lon");
+
+  // Kalau belum ada lat & lon, baru ambil lokasi dari browser
+  if (!lat || !lon) {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(function (position) {
+        const latitude = position.coords.latitude;
+        const longitude = position.coords.longitude;
+
+        // Tambahkan ke URL dan redirect hanya sekali
+        const newUrl = window.location.pathname + `?lat=${latitude}&lon=${longitude}`;
+        window.location.href = newUrl;
+      }, function (error) {
+        alert("Gagal mendapatkan lokasi. Silakan izinkan akses lokasi.");
+      });
+    } else {
+      alert("Geolocation tidak didukung oleh browser ini.");
+    }
+  }
+  </script>
 </body>
 </html>
