@@ -56,6 +56,124 @@ extract($data);
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>OutfitMate - Pilih Outfit Terbaik Setiap Hari</title>
   <link rel="stylesheet" href="dasboard.css">
+  <style>
+    .dashboard-menu .menu{
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem;
+    border-radius: 0.375rem;
+    color: var(--dark);
+    text-decoration: none;
+    transition: all 0.3s;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+  }
+  .dashboard-menu .menu:hover,
+  .dashboard-menu .menu.active {
+    background-color: var(--primary);
+    color: white;
+  }
+    #koleksi h2 {
+        text-align: center;
+        color: #333;
+    }
+
+    #koleksi form {
+      max-width: 100%;
+      margin: auto;
+      background: #fff;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    #koleksi label {
+      display: block;
+      margin-top: 15px;
+      font-weight: bold;
+      color: #555;
+    }
+
+    #koleksi input[type="text"],
+    select {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      box-sizing: border-box;
+    }
+
+    #koleksi .upload-box {
+      border: 2px dashed #bbb;
+      border-radius: 12px;
+      padding: 30px 20px;
+      text-align: center;
+      cursor: pointer;
+      transition: 0.3s;
+      margin-top: 15px;
+    }
+
+    #koleksi .upload-box:hover {
+      background-color: #f0f0f0;
+    }
+
+    #koleksi .upload-icon {
+      font-size: 40px;
+      color: #888;
+    }
+
+    #koleksi .text-upload {
+      color: #666;
+      margin-top: 8px;
+    }
+
+    #koleksi .upload-box input[type="file"] {
+      display: none;
+    }
+
+    #koleksi #preview {
+      display: none;
+      margin-top: 15px;
+      max-width: 100%;
+      border-radius: 10px;
+      box-shadow: 0 0 8px rgba(0,0,0,0.1);
+    }
+
+    #koleksi button {
+      margin-top: 20px;
+      width: 100%;
+      padding: 10px;
+      background-color:var(--primary);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    #koleksi form .koleksi-name,
+    #koleksi form .koleksi-type,
+    #koleksi form .koleksi-preview {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+    }
+    #koleksi form .koleksi-type-1,
+    #koleksi form .koleksi-type-2,
+    #koleksi form .koleksi-name-1,
+    #koleksi form .koleksi-name-2,
+    #koleksi form .koleksi-preview-1,
+    #koleksi form .koleksi-preview-2 {
+      flex: 1;
+      margin-right: 10px;
+    }
+    
+  </style>
 </head>
 <body>
   <header>
@@ -258,15 +376,19 @@ extract($data);
           <div class="dashboard-content">
             <div class="dashboard-sidebar">
               <ul class="dashboard-menu">
-                <li><a href="#" class="active">Beranda</a></li>
-                <li><a href="#">Koleksi Pakaian</a></li>
-                <li><a href="#">Outfit Tersimpan</a></li>
-                <li><a href="#">Rekomendasi</a></li>
-                <li><a href="#">Kalendar Outfit</a></li>
+                <!-- <li><a onclick="showPage(beranda)" href="" class="active">Beranda</a></li>
+                <li><a onclick="showPage(koleksi)" href="">Koleksi Pakaian</a></li>
+                <li><a onclick="showPage(tersimpan)" href="">Outfit Tersimpan</a></li>
+                <li><a onclick="showPage(rekomendasi)" href="">Rekomendasi</a></li>
+                <li><a onclick="showPage(kalendar)" href="">Kalendar Outfit</a></li> -->
+                <div class="menu" onclick="showPage('beranda')">Beranda</div>
+                <div class="menu" onclick="showPage('koleksi')">Koleksi Pakaian</div>
+                <div class="menu" onclick="showPage('tersimpan')">Outfit Tersimpan</div>
+                <div class="menu" onclick="showPage('rekomendasi')">Rekomendasi</div>
                 <li><a href="#">Pengaturan</a></li>
               </ul>
             </div>
-            <div class="dashboard-main">
+            <div id="beranda" class="dashboard-main page">
               <h3>Selamat Pagi, <?= $_SESSION['user'] ?>!</h3>
               <p>Berikut rekomendasi outfit untuk hari ini:</p>
               <div class="dashboard-cards">
@@ -299,6 +421,62 @@ extract($data);
                 </div>
               </div>
             </div>
+            <div id="koleksi" class="page" style="display: none;">
+                <form action="add_outfit.php" method="POST" enctype="multipart/form-data">
+                  <h2>Tambah Outfit Baru</h2>
+                  <div class="koleksi-name">
+                    <div class="koleksi-name-1">
+                      <label>Nama Outfit:</label><br>
+                      <input type="text" name="name" required><br><br>
+                    </div>
+                    <div class="koleksi-name-2">
+                    <label>Kategori:</label><br>
+                      <select name="category" required>
+                        <option value="atasan">Atasan</option>
+                        <option value="bawahan">Bawahan</option>
+                        <option value="jaket">Jaket</option>
+                        <option value="sepatu">Sepatu</option>
+                        <!-- Tambah sesuai kebutuhan -->
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="koleksi-type">
+                    <div class="koleksi-type-1">
+                      <label>Warna:</label><br>
+                      <input type="text" name="color" required><br><br>
+                    </div>
+                    <div class="koleksi-type-2">
+                      <label>Cuaca yang Cocok:</label><br>
+                      <select name="weather">
+                        <option value="cerah">Cerah</option>
+                        <option value="hujan">Hujan</option>
+                        <option value="dingin">Dingin</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="koleksi-preview">
+                    <div class="koleksi-preview-1">
+                      <label>Acara:</label><br>
+                      <input type="text" name="occasion"><br><br>
+                    </div>
+                    <div class="koleksi-preview-2">
+                      <label class="upload-box">
+                        <div class="upload-icon">＋</div>
+                        <div class="text-upload">Click or drag to upload image</div>
+                        <input type="file" name="image" accept="image/*" onchange="previewImage(event)">
+                        <img id="preview" alt="Image Preview">
+                      </label>
+                    </div>
+                  </div>
+
+                  <button type="submit">Simpan Outfit</button>
+              </form>
+            </div>
+            <div id="tersimpan" class="page" style="display: none;">ini halaman outfit tersimpan</div>
+            <div id="rekomendasi" class="page" style="display: none;">ini halaman rekomendasi</div>
+            <div id="kalendar" class="page" style="display: none;">ini halaman kalendar outfit</div>
           </div>
         </div>
       </div>
@@ -363,6 +541,7 @@ extract($data);
     </div>
   </footer>
   <script src="das.js"></script>
+  <script src="page.js"></script>
   <script>
      // Cek apakah URL sudah punya koordinat
   const urlParams = new URLSearchParams(window.location.search);
@@ -386,6 +565,16 @@ extract($data);
       alert("Geolocation tidak didukung oleh browser ini.");
     }
   }
+  </script>
+  <script>
+    function previewImage(event) {
+      const image = document.getElementById('preview');
+      const file = event.target.files[0];
+      if (file) {
+        image.src = URL.createObjectURL(file);
+        image.style.display = 'block';
+      }
+    }
   </script>
 </body>
 </html>
