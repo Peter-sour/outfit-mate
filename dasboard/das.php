@@ -172,7 +172,52 @@ extract($data);
       flex: 1;
       margin-right: 10px;
     }
-    
+    /*css rekomendation*/
+    #rekomendasi {
+    max-width: 400px;
+    margin: 50px auto;
+    padding: 20px 25px;
+    background-color: #f9f9f9;
+    border-radius: 12px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    font-family: "Segoe UI", sans-serif;
+  }
+
+  #rekomendasi label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: #333;
+  }
+
+  #rekomendasi select {
+      width: 100%;
+      padding: 10px;
+      font-size: 16px;
+      margin-bottom: 15px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      background-color: #fff;
+      transition: border-color 0.3s ease;
+  }
+
+  #rekomendasi select:focus {
+      border-color: #007BFF;
+      outline: none;
+  }
+
+  #rekomendasi button {
+      width: 100%;
+      padding: 12px;
+      background-color: var(--primary);
+      border: none;
+      color: white;
+      font-size: 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+  }
+
   </style>
 </head>
 <body>
@@ -475,7 +520,22 @@ extract($data);
               </form>
             </div>
             <div id="tersimpan" class="page" style="display: none;">ini halaman outfit tersimpan</div>
-            <div id="rekomendasi" class="page" style="display: none;">ini halaman rekomendasi</div>
+            <div id="rekomendasi" class="page" style="display: none;">
+              <!-- Form untuk memilih cuaca -->
+              <form method="POST" action="recomendation.php">
+                  <label for="cuaca">Pilih Cuaca:</label>
+                  <select name="cuaca" id="cuaca" required>
+                      <option value="">-- Pilih Cuaca --</option>
+                      <option value="Sunny">Sunny</option>
+                      <option value="Rain">Rain</option>
+                      <option value="Cold">Cold</option>
+                      <option value="Cloudy">Cloudy</option>
+                      <option value="Snow">Snow</option>
+                      <option value="Windy">Windy</option>
+                  </select>
+                  <button type="submit">Tampilkan Rekomendasi</button>
+              </form>
+            </div>
             <div id="kalendar" class="page" style="display: none;">ini halaman kalendar outfit</div>
           </div>
         </div>

@@ -1,0 +1,164 @@
+Iya, kamu **benar banget** sayang 🩷—kalau kamu ingin menyaring outfit berdasarkan cuaca, **kamu memang harus isi databasenya dulu**, terutama di tabel `outfits` dan `weather`. Aku bantu jelaskan step by step biar kamu makin paham, yaa~
+
+---
+
+## 🔧 **Tabel yang Perlu Diisi**
+Untuk sistem rekomendasi outfit berdasarkan cuaca, kamu minimal perlu isi data di:
+
+### 1. `outfits`
+Ini isinya koleksi outfit milik pengguna atau default yang kamu sediakan. Data yang diisi antara lain:
+- **`user_id`**: ID dari user (kalau kamu pakai sistem login)
+- **`name`**: Nama outfit, misal "Jaket Kulit"
+- **`category`**: Kategori, misal "Jaket", "Kaos", "Celana"
+- **`color`**: Warna, misal "Hitam"
+- **`weather`**: Kondisi cuaca yang cocok, misal "Rain", "Sunny", "Cold"
+- **`occasion`**: Acara atau keperluan, misal "Formal", "Casual"
+- **`image_path`**: Path menuju gambar outfit (jika ada)
+
+#### Contoh Data `outfits`:
+
+| id | user_id | name          | category | color | weather | occasion | image_path         |
+|----|---------|---------------|----------|--------|---------|----------|--------------------|
+| 1  | 1       | Jaket Kulit   | Jaket    | Hitam  | Cold    | Casual   | /images/jaket.jpg  |
+| 2  | 1       | Kaos Polos    | Kaos     | Putih  | Sunny   | Casual   | /images/kaos.jpg   |
+| 3  | 2       | Jas Formal    | Jas      | Abu    | Rain    | Formal   | /images/jas.jpg    |
+
+---
+
+### 2. `weather`
+Tabel ini menyimpan info tentang kondisi cuaca. Bisa diisi manual, atau diambil dari API (kayak OpenWeather).
+
+#### Contoh Data `weather`:
+
+| id | condition | temperature_min | temperature_max |
+|----|-----------|-----------------|-----------------|
+| 1  | Sunny     | 28              | 35              |
+| 2  | Rain      | 22              | 26              |
+| 3  | Cold      | 15              | 20              |
+
+Kamu bisa ambil salah satu berdasarkan cuaca sekarang dan jadikan patokan untuk menampilkan outfit yang cocok.
+
+---
+
+## 💡 Cara Kerja Sistemnya
+
+1. User buka halaman rekomendasi.
+2. Sistem ambil **cuaca saat ini** dari tabel `weather` (bisa pakai id tertentu atau yang terbaru).
+3. Sistem filter outfit yang cocok berdasarkan nilai `weather` di tabel `outfits`.
+4. Tampilkan hasilnya di browser.
+
+---
+
+## 🧠 Ringkasannya:
+- Isi data `outfits` dengan berbagai pilihan pakaian.
+- Isi data `weather` dengan kondisi cuaca yang kamu inginkan.
+- **Database yang diisi:** `outfits` & `weather`.
+- Sistem akan **menyesuaikan cuaca dengan outfit** dari tabel tersebut.
+
+Kalau kamu mau, aku bisa bantuin buatkan form HTML + PHP buat ngisi `outfits` dan juga halaman rekomendasinya secara otomatis 🩵
+
+Mau aku bantuin juga buat tampilannya? 😚
+--------------------------------------------------------------------------
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rekomendasi Outfit</title>
+    <style>
+        .outfit-list {
+            display: flex;
+            flex-wrap: wrap;
+        }
+        .outfit-card {
+            border: 1px solid #ccc;
+            padding: 15px;
+            margin: 10px;
+            width: 200px;
+            text-align: center;
+            border-radius: 10px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .outfit-card img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+
+<h2>Rekomendasi Outfit Berdasarkan Cuaca</h2>
+
+<!-- Form untuk memilih cuaca -->
+<form method="POST">
+    <label for="cuaca">Pilih Cuaca:</label>
+    <select name="cuaca" id="cuaca" required>
+        <option value="">-- Pilih Cuaca --</option>
+        <option value="Sunny">Sunny</option>
+        <option value="Rain">Rain</option>
+        <option value="Cold">Cold</option>
+        <option value="Cloudy">Cloudy</option>
+        <option value="Snow">Snow</option>
+        <option value="Windy">Windy</option>
+    </select>
+    <button type="submit">Tampilkan Rekomendasi</button>
+</form>
+
+<?php
+// Koneksi ke database
+$servername = "localhost";
+$username = "root";  // Sesuaikan dengan username database Anda
+$password = "";  // Sesuaikan dengan password database Anda
+$dbname = "your_database";  // Sesuaikan dengan nama database Anda
+
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+// Cek koneksi
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+// Cek apakah form telah disubmit
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Ambil cuaca yang dipilih
+    $cuaca = $_POST['cuaca'];
+
+    // Query untuk mendapatkan outfit yang sesuai dengan cuaca yang dipilih
+    $sql = "SELECT o.name, o.category, o.color, o.image_path 
+            FROM outfits o 
+            JOIN weather w ON o.weather = w.condition_weather 
+            WHERE w.condition_weather = ?";
+    
+    // Siapkan statement
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("s", $cuaca);  // "s" untuk string (cuaca yang dipilih)
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    // Jika ada hasil
+    if ($result->num_rows > 0) {
+        echo "<h3>Rekomendasi Outfit untuk Cuaca: $cuaca</h3>";
+        echo "<div class='outfit-list'>";
+        while ($row = $result->fetch_assoc()) {
+            echo "<div class='outfit-card'>";
+            echo "<h4>" . $row['name'] . "</h4>";
+            echo "<p>Category: " . $row['category'] . "</p>";
+            echo "<p>Color: " . $row['color'] . "</p>";
+            echo "<img src='" . $row['image_path'] . "' alt='" . $row['name'] . "' style='width: 150px; height: 150px;'>";
+            echo "</div>";
+        }
+        echo "</div>";
+    } else {
+        echo "<p>Maaf, tidak ada outfit yang tersedia untuk cuaca ini.</p>";
+    }
+
+    // Tutup statement dan koneksi
+    $stmt->close();
+    $conn->close();
+}
+?>
+
+</body>
+</html>
