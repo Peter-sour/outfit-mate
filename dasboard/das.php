@@ -174,12 +174,9 @@ extract($data);
     }
     /*css rekomendation*/
     #rekomendasi {
-    max-width: 400px;
+    width: 100%;
     margin: 50px auto;
     padding: 20px 25px;
-    background-color: #f9f9f9;
-    border-radius: 12px;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
     font-family: "Segoe UI", sans-serif;
   }
 
@@ -217,7 +214,16 @@ extract($data);
       cursor: pointer;
       transition: background-color 0.3s ease;
   }
+  iframe{
+    width: 100%;
+    height: 100%;
+    border: none;
+    margin: 0 ;
 
+  }
+  #hasil{
+    width: 100%;
+  }
   </style>
 </head>
 <body>
@@ -467,7 +473,7 @@ extract($data);
               </div>
             </div>
             <div id="koleksi" class="page" style="display: none;">
-                <form action="add_outfit.php" method="POST" enctype="multipart/form-data">
+                <form action="add-outfit.php" method="POST" enctype="multipart/form-data">
                   <h2>Tambah Outfit Baru</h2>
                   <div class="koleksi-name">
                     <div class="koleksi-name-1">
@@ -494,9 +500,12 @@ extract($data);
                     <div class="koleksi-type-2">
                       <label>Cuaca yang Cocok:</label><br>
                       <select name="weather">
-                        <option value="cerah">Cerah</option>
-                        <option value="hujan">Hujan</option>
-                        <option value="dingin">Dingin</option>
+                        <option value="Sunny">Sunny</option>
+                        <option value="Rain">Rain</option>
+                        <option value="Cold">Cold</option>
+                        <option value="Cloudy">Cloudy</option>
+                        <option value="Snow">Snow</option>
+                        <option value="Windy">Windy</option>
                       </select>
                     </div>
                   </div>
@@ -519,12 +528,14 @@ extract($data);
                   <button type="submit">Simpan Outfit</button>
               </form>
             </div>
-            <div id="tersimpan" class="page" style="display: none;">ini halaman outfit tersimpan</div>
-            <div id="rekomendasi" class="page" style="display: none;">
+            <div id="tersimpan" class="page" style="display: none;">
+              <iframe src="koleksi.php" frameborder="0"></iframe>
+            </div>
+            <i id="rekomendasi" class="page" style="display: none;">
               <!-- Form untuk memilih cuaca -->
-              <form method="POST" action="recomendation.php">
+              <form method="POST" action="recomendation.php" id="rekomendasi-outfit">
                   <label for="cuaca">Pilih Cuaca:</label>
-                  <select name="cuaca" id="cuaca" required>
+                  <select name="cuaca" id="cuaca" required >
                       <option value="">-- Pilih Cuaca --</option>
                       <option value="Sunny">Sunny</option>
                       <option value="Rain">Rain</option>
@@ -535,7 +546,8 @@ extract($data);
                   </select>
                   <button type="submit">Tampilkan Rekomendasi</button>
               </form>
-            </div>
+              <div id="hasil"></div>
+            </i>
             <div id="kalendar" class="page" style="display: none;">ini halaman kalendar outfit</div>
           </div>
         </div>
@@ -636,5 +648,26 @@ extract($data);
       }
     }
   </script>
+   <script>
+        // Ambil form dan handle submit-nya
+        document.getElementById('rekomendasi-outfit').addEventListener('submit', function(e) {
+            e.preventDefault(); // Mencegah reload halaman
+
+            const formData = new FormData(this); // Ambil data form
+
+            // Kirim data form ke proses.php menggunakan Fetch API
+            fetch('recomendation.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.text()) // Ambil hasil dari server (HTML)
+            .then(data => {
+                document.getElementById('hasil').innerHTML = data; // Tampilkan di div #hasil
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        });
+    </script>
 </body>
 </html>

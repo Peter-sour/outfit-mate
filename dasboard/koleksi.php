@@ -1,94 +1,43 @@
 <?php
-// Koneksi ke database
-$servername = "localhost";
-$username = "root";  // Sesuaikan dengan username database Anda
-$password = "";  // Sesuaikan dengan password database Anda
-$dbname = "outfit_mate";  // Sesuaikan dengan nama database Anda
+session_start(); // Memulai session untuk mengambil firstname
 
-$conn = new mysqli($servername, $username, $password, $dbname);
+// Membuat koneksi ke database
+$conn = new mysqli("localhost", "root", "", "outfit_mate"); // Ganti dengan username dan password database Anda
 
-// Cek koneksi
+// Mengecek koneksi
 if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
+    die("Koneksi gagal: " . $conn->connect_error);
 }
 
-// Cek apakah form telah disubmit
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Ambil cuaca yang dipilih
-    $cuaca = $_POST['cuaca'];
+// Mengambil firstname dari session
+$firstname = $_SESSION['user']; 
 
-    // Query untuk mendapatkan outfit yang sesuai dengan cuaca yang dipilih
-    $sql = "SELECT o.name, o.category, o.color, o.image_path 
-            FROM outfits o 
-            JOIN weather w ON o.weather = w.condition_weather 
-            WHERE w.condition_weather = ?";
-    
-    // Siapkan statement
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("s", $cuaca);  // "s" untuk string (cuaca yang dipilih)
-    $stmt->execute();
-    $result = $stmt->get_result();
+// Menggunakan JOIN untuk mengambil data outfit dan user_id sekaligus
+$sql = "
+    SELECT o.name, o.category, o.color, o.image_path
+    FROM outfits o
+    JOIN users u ON o.user_id = u.id
+    WHERE u.firstname = ?
+";
 
-    // Jika ada hasil
-    if ($result->num_rows > 0) {
-        // echo "<h3>Rekomendasi Outfit untuk Cuaca: $cuaca</h3>";
-        // echo "<div class='outfit-list'>";
-        // while ($row = $result->fetch_assoc()) {
-        //      // CSS untuk styling
-        //     echo "<style>
-        //     .outfit-list {
-        //         display: flex;
-        //         flex-wrap: wrap;
-        //         gap: 20px;
-        //         margin: 20px 0;
-        //     }
-        //     .outfit-card {
-        //         background-color: #f9f9f9;
-        //         border: 1px solid #ddd;
-        //         border-radius: 8px;
-        //         padding: 15px;
-        //         width: 100%;
-        //         text-align: center;
-        //         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-        //         transition: transform 0.3s ease, box-shadow 0.3s ease;
-        //     }
-        //     .outfit-card:hover {
-        //         transform: scale(1.05);
-        //         box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
-        //     }
-        //     .outfit-card img {
-        //         width: 100%;
-        //         height: 150px;
-        //         object-fit: cover;
-        //         border-radius: 5px;
-        //     }
-        //     .outfit-card h4 {
-        //         font-size: 22px;
-        //         font-weight: bold;
-        //         color: #333;
-        //         margin: 10px 0;
-        //         text-transform: uppercase;
-        //         letter-spacing: 1px;
-        //         transition: color 0.3s ease;
-        //     }
-        //     .outfit-card h4:hover {
-        //         color: #ff6347; /* Warna berubah saat hover */
-        //     }
-        //     .outfit-card p {
-        //         font-size: 14px;
-        //         color: #555;
-        //     }
-        //     </style>";
-        //     // Tampilkan informasi outfit
-        //     echo "<div class='outfit-card'>";
-        //     echo "<h4>" . $row['name'] . "</h4>";
-        //     echo "<p>Category: " . $row['category'] . "</p>";
-        //     echo "<p>Color: " . $row['color'] . "</p>";
-        //     echo "<img src='" . $row['image_path'] . "' alt='" . $row['name'] . "' style='width: 150px; height: 150px;'>";
-        //     echo "</div>";
-        // }
-        // echo "</div>";
-        echo "<div class='outfit-grid'>";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("s", $firstname);
+$stmt->execute();
+$result = $stmt->get_result();
+
+// Menampilkan data outfit
+if ($result->num_rows > 0) {
+    // echo "<div class='outfit-list'>";
+    // while ($row = $result->fetch_assoc()) {
+    //     echo "<div class='outfit-card'>";
+    //     echo "<h4>" . htmlspecialchars($row['name']) . "</h4>";
+    //     echo "<p>Category: " . htmlspecialchars($row['category']) . "</p>";
+    //     echo "<p>Color: " . htmlspecialchars($row['color']) . "</p>";
+    //     echo "<img src='" . htmlspecialchars($row['image_path']) . "' alt='" . htmlspecialchars($row['name']) . "' style='width: 150px; height: 150px;'>";
+    //     echo "</div>";
+    // }
+    // echo "</div>";
+    echo "<div class='outfit-grid'>";
     while ($row = $result->fetch_assoc()) {
         // CSS for styling
         echo "<style>
@@ -103,6 +52,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             border-radius: 12px;
             overflow: hidden;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            border: 1px solid #eaeaea;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
             display: flex;
             flex-direction: column;
@@ -207,12 +157,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo "</div>"; // close outfit-card
     }
     echo "</div>"; // close outfit-grid
-    } else {
-        echo "<p>Maaf, tidak ada outfit yang tersedia untuk cuaca ini.</p>";
-    }
-
-    // Tutup statement dan koneksi
-    $stmt->close();
-    $conn->close();
+} else {
+    echo "Tidak ada data.";
 }
+
+$stmt->close();
+$conn->close();
 ?>
