@@ -1,9 +1,13 @@
 <?php
+session_start(); // Aktifkan session
+
+$firstname = $_SESSION['user']; // Ambil nama depan dari session
+
 // Koneksi ke database
 $servername = "localhost";
-$username = "root";  // Sesuaikan dengan username database Anda
-$password = "";  // Sesuaikan dengan password database Anda
-$dbname = "outfit_mate";  // Sesuaikan dengan nama database Anda
+$username = "root";
+$password = "";
+$dbname = "outfit_mate";
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 
@@ -12,34 +16,41 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
+// Ambil user_id berdasarkan firstname (atau username) yang sedang login
+$sql = "SELECT id FROM users WHERE firstname = ?";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("s", $firstname);  // "s" untuk string
+$stmt->execute();
+$result = $stmt->get_result();
+
+// Cek apakah user ditemukan
+if ($result->num_rows > 0) {
+    // Ambil user_id
+    $row = $result->fetch_assoc();
+    $user_id = $row['id'];
+} else {
+    // Jika user tidak ditemukan, hentikan eksekusi
+    echo "User tidak ditemukan!";
+    exit;
+}
+
 // Cek apakah form telah disubmit
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Ambil cuaca yang dipilih
     $cuaca = $_POST['cuaca'];
 
-    // Query untuk mendapatkan outfit yang sesuai dengan cuaca yang dipilih
-    // $sql = "SELECT o.name, o.category, o.color, o.image_path 
-    //         FROM outfits o 
-    //         JOIN users u ON o.user_id = u.id
-    //         -- JOIN weather w ON o.weather = w.condition_weather 
-    //         WHERE o.weather = ?";
+    // Ambil outfit sesuai cuaca dan user login
+    $sql = "SELECT name, category, color, image_path 
+            FROM outfits 
+            WHERE weather = ? AND user_id = ?";
 
-    $sql = "SELECT o.name, o.category, o.color, o.image_path 
-            FROM outfits o 
-            JOIN users u ON o.user_id = u.id
-            WHERE o.weather = ?";
-    
-    // Siapkan statement
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("s", $cuaca);  // "s" untuk string (cuaca yang dipilih)
+    $stmt->bind_param("si", $cuaca, $user_id); // s = string, i = integer
     $stmt->execute();
     $result = $stmt->get_result();
 
-    // Jika ada hasil
     if ($result->num_rows > 0) {
         echo "<div class='outfit-grid'>";
         while ($row = $result->fetch_assoc()) {
-            // CSS for styling
             echo "<style>
             .outfit-grid {
                 display: grid;
@@ -108,8 +119,37 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 margin-right: 8px;
             }
             </style>";
-            
-            // Display outfit information
+
+            $colorValue = $row['color'];
+            $colorMap = [
+                'hitam' => '#000000',
+                'putih' => '#ffffff',
+                'merah' => '#e74c3c',
+                'biru' => '#3498db',
+                'hijau' => '#2ecc71',
+                'kuning' => '#f1c40f',
+                'abu-abu' => '#7f8c8d',
+                'oranye' => '#e67e22',
+                'ungu' => '#9b59b6',
+                'coklat' => '#8e5c42',
+                'pink' => '#ff69b4',
+                'emas' => '#ffd700',
+                'silver' => '#c0c0c0',
+                'navy' => '#34495e',
+                'toska' => '#1abc9c',
+                'lime' => '#a4de02',
+                'maroon' => '#800000',
+                'cyan' => '#00ffff',
+                'magenta' => '#ff00ff',
+                'lavender' => '#e6e6fa',
+                'salmon' => '#fa8072',
+                'peach' => '#ffe5b4',
+                'tan' => '#d2b48c',
+                'olive' => '#808000',
+                'teal' => '#008080',
+            ];
+            $hexColor = isset($colorMap[$colorValue]) ? $colorMap[$colorValue] : '#777777';
+
             echo "<div class='outfit-card'>";
             echo "<div class='outfit-image'>";
             echo "<img src='" . $row['image_path'] . "' alt='" . $row['name'] . "'>";
@@ -117,50 +157,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             echo "<div class='outfit-info'>";
             echo "<h3 class='outfit-name'>" . $row['name'] . "</h3>";
             echo "<p class='outfit-detail'>Category: <span>" . $row['category'] . "</span></p>";
-            
-            // Create color display with dot
-            $colorValue = $row['color'];
-            $colorMap = [
-                'hitam'     => '#000000',
-                'putih'     => '#ffffff',
-                'merah'     => '#e74c3c',
-                'biru'      => '#3498db',
-                'hijau'     => '#2ecc71',
-                'kuning'    => '#f1c40f',
-                'abu-abu'   => '#7f8c8d',
-                'oranye'    => '#e67e22',
-                'ungu'      => '#9b59b6',
-                'coklat'    => '#8e5c42',
-                'pink'      => '#ff69b4',
-                'emas'      => '#ffd700',
-                'silver'    => '#c0c0c0',
-                'navy'      => '#34495e',
-                'toska'     => '#1abc9c',
-                'lime'      => '#a4de02',
-                'maroon'    => '#800000',
-                'cyan'      => '#00ffff',
-                'magenta'   => '#ff00ff',
-                'lavender'  => '#e6e6fa',
-                'salmon'    => '#fa8072',
-                'peach'     => '#ffe5b4',
-                'tan'       => '#d2b48c',
-                'olive'     => '#808000',
-                'teal'      => '#008080',
-                // Add more color mappings as needed
-            ];
-            
-            $hexColor = isset($colorMap[$colorValue]) ? $colorMap[$colorValue] : '#777777';
-            
             echo "<p class='outfit-detail'><span class='color-dot' style='background-color: $hexColor;'></span>Color: <span>" . $colorValue . "</span></p>";
-            echo "</div>"; // close outfit-info
-            echo "</div>"; // close outfit-card
+            echo "</div></div>";
         }
-        echo "</div>"; // close outfit-grid
+        echo "</div>";
     } else {
-        echo "<p>Maaf, tidak ada outfit yang tersedia untuk cuaca ini.</p>";
+        // echo "<p>Maaf, tidak ada outfit yang tersedia untuk cuaca ini.</p>";
+        echo "mohon maaf, tidak ada outfit yang tersedia untuk cuaca ini.";
+
     }
 
-    // Tutup statement dan koneksi
     $stmt->close();
     $conn->close();
 }
