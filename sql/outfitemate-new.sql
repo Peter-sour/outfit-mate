@@ -1,11 +1,14 @@
 -- 1. Tabel users
 CREATE TABLE users (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(100) NOT NULL,
+    user_id INT AUTO_INCREMENT PRIMARY KEY,
+    firstname VARCHAR(100) DEFAULT NULL,
+    lastname VARCHAR(100) DEFAULT NULL,
     email VARCHAR(100) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL,
-    gender ENUM('M', 'F') NOT NULL,
-    birthdate DATE NOT NULL
+    profile_picture VARCHAR(255),
+    agreed_terms TINYINT(1) DEFAULT 0, -- 1 = setuju, 0 = belum
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
 -- 2. Tabel weather

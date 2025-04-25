@@ -16,9 +16,8 @@ $firstname = $_SESSION['user'];
 $sql = "
     SELECT o.name, o.category, o.color, o.image_path
     FROM outfits o
-    JOIN users u ON o.user_id = u.id
-    WHERE u.firstname = ?
-";
+    JOIN users u ON u.id = o.user_id
+    WHERE u.firstname = ?  ";
 
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("s", $firstname);

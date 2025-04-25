@@ -39,20 +39,9 @@ CREATE TABLE IF NOT EXISTS outfits (
     occasion VARCHAR(50),
     weather_condition VARCHAR(50),
     season VARCHAR(50),
-    is_favorite BOOLEAN DEFAULT FALSE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
-);
-
--- Tabel outfit_items (item dalam outfit)
-CREATE TABLE IF NOT EXISTS outfit_items (
-    outfit_item_id INT AUTO_INCREMENT PRIMARY KEY,
-    outfit_id INT NOT NULL,
-    item_id INT NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (outfit_id) REFERENCES outfits(outfit_id) ON DELETE CASCADE,
-    FOREIGN KEY (item_id) REFERENCES clothing_items(item_id) ON DELETE CASCADE
 );
 
 -- Tabel outfit_history (riwayat penggunaan outfit)
