@@ -9,6 +9,24 @@ if ($conn->connect_error) {
     die("Koneksi gagal: " . $conn->connect_error);
 }
 
+// Proses penghapusan outfit
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id'])) {
+    $id = $_POST['id']; // Menggunakan kolom `id`
+
+    // Menghapus outfit berdasarkan `id`
+    $sql = "DELETE FROM outfits WHERE id = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("i", $id);
+    $stmt->execute();
+    
+    if ($stmt->affected_rows > 0) {
+        echo "<script>alert('Outfit berhasil dihapus!');</script>";
+    } else {
+        echo "<script>alert('Outfit tidak ditemukan!');</script>";
+    }
+    $stmt->close();
+}
+
 // Mengambil firstname dari session
 $firstname = $_SESSION['user']; 
 
@@ -107,6 +125,27 @@ if ($result->num_rows > 0) {
             border-radius: 50%;
             margin-right: 8px;
         }
+        button[type='submit'] {
+            background-color: #e74c3c; /* Warna merah */
+            color: white; /* Teks putih */
+            font-size: 16px; /* Ukuran font */
+            padding: 10px 20px; /* Padding atas-bawah dan kiri-kanan */
+            border: none; /* Menghilangkan border default */
+            border-radius: 8px; /* Sudut membulat */
+            cursor: pointer; /* Menampilkan pointer saat dihover */
+            transition: background-color 0.3s, transform 0.2s ease-in-out; /* Animasi perubahan warna dan efek transformasi */
+        }
+
+        button[type='submit']:hover {
+            background-color: #c0392b; /* Warna merah lebih gelap saat dihover */
+            transform: scale(1.05); /* Efek pembesaran tombol saat dihover */
+        }
+
+        button[type='submit']:active {
+            background-color: #a93226; /* Warna merah lebih gelap saat diklik */
+            transform: scale(1); /* Kembali ke ukuran normal setelah klik */
+        }
+
         </style>";
         
         // Display outfit information
@@ -152,6 +191,11 @@ if ($result->num_rows > 0) {
         $hexColor = isset($colorMap[$colorValue]) ? $colorMap[$colorValue] : '#777777';
         
         echo "<p class='outfit-detail'><span class='color-dot' style='background-color: $hexColor;'></span>Color: <span>" . $colorValue . "</span></p>";
+        // Form untuk delete outfit
+        echo "<form method='POST' action=''>
+            <input type='hidden' name='id' value='" . $row['id'] . "'>
+            <button type='submit' onclick='return confirm(\"Yakin ingin menghapus outfit ini?\")'>Delete</button>
+        </form>";
         echo "</div>"; // close outfit-info
         echo "</div>"; // close outfit-card
     }
