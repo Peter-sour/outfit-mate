@@ -35,7 +35,7 @@ if ($result->num_rows > 0) {
 
     if ($password === $row['password']) { // Kalau belum pakai hashing
         $_SESSION['user'] = $row['firstname']; // Simpan nama depan ke session
-
+        $_SESSION['login_via'] = 'manual'; //tandai login manual
         // Redirect ke dashboard PHP (bukan HTML)
         header("Location: ../dasboard/das.php");
         exit;

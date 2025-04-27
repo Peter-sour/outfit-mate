@@ -1,26 +1,24 @@
 <?php
-// Mulai sesi
-session_start();
+session_start(); // Mulai sesi
 
-// Kosongkan semua data sesi
-$_SESSION = [];
+// Cek login via Google (logout Google)
+if (isset($_SESSION['login_via']) && $_SESSION['login_via'] === 'google') {
+    // Logout dari Google dan hapus session token Google
+    unset($_SESSION['access_token']); // Hapus token akses Google
+    $_SESSION['login_via'] = ''; // Kosongkan session login_via
 
-// Hapus semua variabel sesi
-session_unset();
+    // Redirect ke URL logout Google
+    $google_logout_url = 'https://accounts.google.com/Logout?continue=https://appengine.google.com/_ah/logout?continue=http://127.0.0.1/mysql/login/login.html';
+    header('Location: ' . $google_logout_url);
+    exit();
+} else {
+    // Logout manual (email/password)
+    $_SESSION = []; // Kosongkan semua data sesi
+    session_unset(); // Hapus semua variabel sesi
+    session_destroy(); // Hancurkan sesi
 
-// Hancurkan sesi
-session_destroy();
-
-// Hapus cookie sesi jika ada
-if (ini_get("session.use_cookies")) {
-    $params = session_get_cookie_params();
-    setcookie(session_name(), '', time() - 42000,
-        $params["path"], $params["domain"],
-        $params["secure"], $params["httponly"]
-    );
+    // Redirect ke halaman login
+    header('Location: ../login/login.html');
+    exit();
 }
-
-// Redirect ke halaman login
-header("Location: ../login/login.html");
-exit();
 ?>

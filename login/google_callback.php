@@ -50,6 +50,7 @@ if (isset($_GET['code'])) {
         }
 
         $_SESSION['user'] = $firstname; // Simpan session
+        $_SESSION['login_via'] = 'google'; // Tandai login via Google
 
         $conn->close();
 
