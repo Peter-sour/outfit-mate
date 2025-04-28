@@ -1,6 +1,7 @@
 <?php
 session_start(); // Memulai session untuk mengambil firstname
-
+// Mengambil firstname dari session
+$firstname = $_SESSION['user']; 
 // Membuat koneksi ke database
 $conn = new mysqli("localhost", "root", "", "outfit_mate"); // Ganti dengan username dan password database Anda
 
@@ -9,30 +10,10 @@ if ($conn->connect_error) {
     die("Koneksi gagal: " . $conn->connect_error);
 }
 
-// Proses penghapusan outfit
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id'])) {
-    $id = $_POST['id']; // Menggunakan kolom `id`
-
-    // Menghapus outfit berdasarkan `id`
-    $sql = "DELETE FROM outfits WHERE id = ?";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("i", $id);
-    $stmt->execute();
-    
-    if ($stmt->affected_rows > 0) {
-        echo "<script>alert('Outfit berhasil dihapus!');</script>";
-    } else {
-        echo "<script>alert('Outfit tidak ditemukan!');</script>";
-    }
-    $stmt->close();
-}
-
-// Mengambil firstname dari session
-$firstname = $_SESSION['user']; 
 
 // Menggunakan JOIN untuk mengambil data outfit dan user_id sekaligus
 $sql = "
-    SELECT o.name, o.category, o.color, o.image_path
+    SELECT o.outfit_id, o.name, o.category, o.color, o.image_path
     FROM outfits o
     JOIN users u ON u.id = o.user_id
     WHERE u.firstname = ?  ";
@@ -44,16 +25,6 @@ $result = $stmt->get_result();
 
 // Menampilkan data outfit
 if ($result->num_rows > 0) {
-    // echo "<div class='outfit-list'>";
-    // while ($row = $result->fetch_assoc()) {
-    //     echo "<div class='outfit-card'>";
-    //     echo "<h4>" . htmlspecialchars($row['name']) . "</h4>";
-    //     echo "<p>Category: " . htmlspecialchars($row['category']) . "</p>";
-    //     echo "<p>Color: " . htmlspecialchars($row['color']) . "</p>";
-    //     echo "<img src='" . htmlspecialchars($row['image_path']) . "' alt='" . htmlspecialchars($row['name']) . "' style='width: 150px; height: 150px;'>";
-    //     echo "</div>";
-    // }
-    // echo "</div>";
     echo "<div class='outfit-grid'>";
     while ($row = $result->fetch_assoc()) {
         // CSS for styling
@@ -130,6 +101,7 @@ if ($result->num_rows > 0) {
             color: white; /* Teks putih */
             font-size: 16px; /* Ukuran font */
             padding: 10px 20px; /* Padding atas-bawah dan kiri-kanan */
+            margin-top: 10px; /* Jarak atas */
             border: none; /* Menghilangkan border default */
             border-radius: 8px; /* Sudut membulat */
             cursor: pointer; /* Menampilkan pointer saat dihover */
@@ -192,8 +164,8 @@ if ($result->num_rows > 0) {
         
         echo "<p class='outfit-detail'><span class='color-dot' style='background-color: $hexColor;'></span>Color: <span>" . $colorValue . "</span></p>";
         // Form untuk delete outfit
-        echo "<form method='POST' action=''>
-            <input type='hidden' name='id' value='" . $row['id'] . "'>
+        echo "<form method='POST' action='delete_from.php'>
+            <input type='hidden' name='outfit_id' value='" . $row['outfit_id'] . "'>
             <button type='submit' onclick='return confirm(\"Yakin ingin menghapus outfit ini?\")'>Delete</button>
         </form>";
         echo "</div>"; // close outfit-info

@@ -14,6 +14,16 @@ if ($koneksi->connect_error) {
     die("Koneksi gagal: " . $koneksi->connect_error);
 }
 
+// function dapatkanOutfitIdTerbaru($koneksi) {
+//     $sql = "SELECT MAX(outfit_id) AS max_id FROM outfits";
+//     $result = $koneksi->query($sql);
+//     if (!$result) {
+//         die('Error pada query: ' . $koneksi->error); // Menangani error pada query
+//     }
+//     $row = $result->fetch_assoc();
+//     return $row['max_id'] ? $row['max_id'] + 1 : 1; // jika tidak ada data, mulai dari 1
+// }
+
 // 3. Fungsi untuk mendapatkan ID user
 function dapatkanUserId($username, $koneksi) {
     $stmt = $koneksi->prepare("SELECT id FROM users WHERE firstname = ?");
@@ -32,6 +42,8 @@ function dapatkanUserId($username, $koneksi) {
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Dapatkan ID user yang login
     $user_id = dapatkanUserId($_SESSION['user'], $koneksi);
+    // $outfit_id = dapatkanOutfitIdTerbaru($koneksi);
+
     
     if (!$user_id) {
         die("User tidak ditemukan");
@@ -71,7 +83,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // 7. Simpan ke Database
     $stmt = $koneksi->prepare("INSERT INTO outfits (user_id, name, category, color, weather, occasion, image_path) 
                               VALUES (?, ?, ?, ?, ?, ?, ?)");
-    $stmt->bind_param("issssss", $user_id, $nama_outfit, $kategori, $warna, $cuaca, $acara, $lokasi_gambar);
+    $stmt->bind_param("issssss", $user_id,$nama_outfit, $kategori, $warna, $cuaca, $acara, $lokasi_gambar);
 
     if ($stmt->execute()) {
         header("Location: ../dasboard/das.php?page=koleksi&sukses=1");
