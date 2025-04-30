@@ -441,7 +441,7 @@ extract($data);
             </div>
             <div id="beranda" class="dashboard-main page">
               <h3>Selamat Pagi, <?= $_SESSION['user'] ?>!</h3>
-              <p>Berikut rekomendasi outfit untuk hari ini:</p>
+              <p>Cek update outfit terbaru kamu di bawah ini:</p>
               <div class="dashboard-cards">
                 <div class="dashboard-card">
                   <h4>Total Pakaian</h4>
