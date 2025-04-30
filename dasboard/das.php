@@ -456,21 +456,6 @@ extract($data);
                   <p>5 hari lalu</p>
                 </div>
               </div>
-              <h4>Rekomendasi Hari Ini</h4>
-              <div class="outfit-grid">
-                <div class="outfit-item">
-                  <img src="/api/placeholder/150/150" alt="Pakaian 1">
-                </div>
-                <div class="outfit-item">
-                  <img src="/api/placeholder/150/150" alt="Pakaian 2">
-                </div>
-                <div class="outfit-item">
-                  <img src="/api/placeholder/150/150" alt="Pakaian 3">
-                </div>
-                <div class="outfit-item">
-                  <img src="/api/placeholder/150/150" alt="Pakaian 4">
-                </div>
-              </div>
             </div>
             <div id="koleksi" class="page" style="display: none;">
                 <form action="add-outfit.php" method="POST" enctype="multipart/form-data">
