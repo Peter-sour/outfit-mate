@@ -1,0 +1,87 @@
+/* Features section styles */
+.features {
+    background-color: var(--neutral-100);
+    position: relative;
+    z-index: 1;
+}
+
+.feature-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: var(--spacing-4);
+}
+
+.feature-card {
+    background-color: white;
+    border-radius: var(--border-radius);
+    padding: var(--spacing-4);
+    box-shadow: var(--shadow);
+    transition: transform var(--transition-normal), box-shadow var(--transition-normal);
+    position: relative;
+    overflow: hidden;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.feature-card:hover {
+    transform: translateY(-10px);
+    box-shadow: var(--shadow-lg);
+}
+
+.feature-card:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(90deg, var(--primary) 0%, var(--accent) 100%);
+    transition: height var(--transition-normal);
+}
+
+.feature-card:hover:before {
+    height: 8px;
+}
+
+.feature-icon {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    background-color: var(--primary-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: var(--spacing-2);
+    color: white;
+    font-size: 1.8rem;
+    transition: transform var(--transition-normal);
+}
+
+.feature-card:hover .feature-icon {
+    transform: scale(1.1);
+}
+
+.feature-card:nth-child(2) .feature-icon {
+    background-color: var(--secondary-light);
+}
+
+.feature-card:nth-child(3) .feature-icon {
+    background-color: var(--accent-light);
+}
+
+.feature-card:nth-child(4) .feature-icon {
+    background-color: var(--success);
+}
+
+.feature-card h3 {
+    font-size: 1.3rem;
+    margin-bottom: var(--spacing-1);
+    color: var(--neutral-900);
+}
+
+.feature-card p {
+    color: var(--neutral-600);
+    margin-bottom: 0;
+}

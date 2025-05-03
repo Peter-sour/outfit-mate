@@ -1,0 +1,118 @@
+/* Responsive styles */
+
+/* Small devices (landscape phones, 576px and up) */
+@media (max-width: 576px) {
+    html {
+        font-size: 14px;
+    }
+
+    .hero-content h1 {
+        font-size: 2.5rem;
+    }
+
+    .hero-buttons {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .hero-buttons .btn {
+        width: 100%;
+        text-align: center;
+    }
+
+    .section-header h2 {
+        font-size: 2rem;
+    }
+
+    .feature-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .weather-widget {
+        display: none;
+    }
+}
+
+/* Medium devices (tablets, 768px and up) */
+@media (max-width: 768px) {
+    .hero .container {
+        flex-direction: column-reverse;
+        text-align: center;
+    }
+
+    .hero-content {
+        max-width: 100%;
+    }
+
+    .hero-buttons {
+        justify-content: center;
+    }
+
+    .hero-image {
+        margin-bottom: var(--spacing-4);
+        justify-content: center;
+    }
+
+    .hero-image img {
+        max-width: 80%;
+    }
+
+    .weather-widget {
+        display: none;
+    }
+    
+    .navbar .container {
+        flex-wrap: wrap;
+    }
+
+    .login-buttons {
+        display: none;
+        width: 100%;
+        order: 3;
+        margin-top: var(--spacing-2);
+        flex-direction: column;
+    }
+
+    .menu-toggle {
+        display: block;
+    }
+
+    .navbar.active .login-buttons {
+        display: flex;
+    }
+
+    .footer-content {
+        flex-direction: column;
+        gap: var(--spacing-3);
+    }
+}
+
+/* Large devices (desktops, 992px and up) */
+@media (max-width: 992px) {
+    .feature-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* Extra large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) {
+    .container {
+        max-width: 1140px;
+    }
+}
+
+/* Navigation for mobile */
+@media (max-width: 768px) {
+    .navbar .container {
+        padding: var(--spacing-1) var(--spacing-2);
+    }
+}
+
+/* Weather widget responsive */
+@media (max-width: 992px) and (min-width: 769px) {
+    .weather-widget {
+        position: absolute;
+        top: 80px;
+        right: var(--spacing-2);
+    }
+}
