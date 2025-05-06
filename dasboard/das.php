@@ -251,7 +251,7 @@ extract($data);
     </div>
   </header>
 
-  <main>
+  <mai>
     <section class="hero">
       <div class="container">
         <div class="hero">
@@ -363,182 +363,6 @@ extract($data);
       </div>
     </section>
 
-    <section class="weather-section">
-      <div class="container">
-        <div class="section-title">
-          <h2>Cuaca Mempengaruhi Gaya</h2>
-          <p>OutfitMate memanfaatkan data cuaca terkini untuk membantu Anda berpakaian sesuai kondisi</p>
-        </div>
-        <div class="weather-container">
-          <div class="weather-info">
-            <h2>Pakaian yang Tepat untuk Setiap Cuaca</h2><br>
-            <p>OutfitMate mengintegrasikan data cuaca real-time untuk memberikan rekomendasi outfit yang benar-benar sesuai dengan kondisi hari ini.</p>
-            <p>Dari hari yang panas hingga musim hujan, kami memastikan Anda tetap nyaman dan stylish sepanjang hari.</p>
-            <p style="font-weight : 700 ">Ingin tau gaya apa yang sesuai denganmu hari ini</p>
-            <button class="btn btn-primary">login disini</button>
-          </div>
-          <div class="weather-card">
-            <div class="weather-card-header">
-              <div>
-                <!-- <h3>Jakarta</h3>
-                <p>Selasa, 17 April</p> -->
-                <h3><?= $city ?></h3>
-                <p><?= $date ?></p>
-              </div>
-              <div class="weather-icon">
-                ☀️
-              </div>
-            </div>
-            <div class="weather-temperature">
-              <?= $temp ?>°C
-            </div>
-            <p>Cerah Berawan</p>
-            <div class="weather-details">
-              <div class="weather-detail">
-                💧
-                <span><?= $humidity ?>% Kelembaban</span>
-              </div>
-              <div class="weather-detail">
-                💨
-                <span><?= $wind_speed ?> km/j Angin</span>
-              </div>
-              <div class="weather-detail">
-                🌡️
-                <span>Terasa seperti <?= $feels_like ?>°C</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="dashboard-preview">
-      <div class="container">
-        <div class="section-title">
-          <h2>Dashboard Pribadi Anda</h2>
-          <p>Kelola koleksi pakaian dan lihat rekomendasi outfit harian</p>
-        </div>
-        <div class="dashboard-container">
-          <div class="dashboard-header">
-            <h3>OutfitMate Dashboard</h3>
-            <div>
-              Halo, <?= $_SESSION['user'] ?>!
-            </div>
-          </div>
-          <div class="dashboard-content">
-            <div class="dashboard-sidebar">
-              <ul class="dashboard-menu">
-                <!-- <li><a onclick="showPage(beranda)" href="" class="active">Beranda</a></li>
-                <li><a onclick="showPage(koleksi)" href="">Koleksi Pakaian</a></li>
-                <li><a onclick="showPage(tersimpan)" href="">Outfit Tersimpan</a></li>
-                <li><a onclick="showPage(rekomendasi)" href="">Rekomendasi</a></li>
-                <li><a onclick="showPage(kalendar)" href="">Kalendar Outfit</a></li> -->
-                <div class="menu" onclick="showPage('beranda')">Beranda</div>
-                <div class="menu" onclick="showPage('koleksi')">Koleksi Pakaian</div>
-                <div class="menu" onclick="showPage('tersimpan')">Outfit Tersimpan</div>
-                <div class="menu" onclick="showPage('rekomendasi')">Rekomendasi</div>
-                <li><a href="#">Pengaturan</a></li>
-              </ul>
-            </div>
-            <div id="beranda" class="dashboard-main page">
-              <h3>Selamat Pagi, <?= $_SESSION['user'] ?>!</h3>
-              <p>Cek update outfit terbaru kamu di bawah ini:</p>
-              <div class="dashboard-cards">
-                <div class="dashboard-card">
-                  <h4>Total Pakaian</h4>
-                  <p>78</p>
-                </div>
-                <div class="dashboard-card">
-                  <h4>Outfit Tersimpan</h4>
-                  <p>12</p>
-                </div>
-                <div class="dashboard-card">
-                  <h4>Terakhir Ditambahkan</h4>
-                  <p>5 hari lalu</p>
-                </div>
-              </div>
-            </div>
-            <div id="koleksi" class="page" style="display: none;">
-                <form action="add-outfit.php" method="POST" enctype="multipart/form-data">
-                  <h2>Tambah Outfit Baru</h2>
-                  <div class="koleksi-name">
-                    <div class="koleksi-name-1">
-                      <label>Nama Outfit:</label><br>
-                      <input type="text" name="name" required><br><br>
-                    </div>
-                    <div class="koleksi-name-2">
-                    <label>Kategori:</label><br>
-                      <select name="category" required>
-                        <option value="atasan">Atasan</option>
-                        <option value="bawahan">Bawahan</option>
-                        <option value="jaket">Jaket</option>
-                        <option value="sepatu">Sepatu</option>
-                        <!-- Tambah sesuai kebutuhan -->
-                      </select>
-                    </div>
-                  </div>
-
-                  <div class="koleksi-type">
-                    <div class="koleksi-type-1">
-                      <label>Warna:</label><br>
-                      <input type="text" name="color" required><br><br>
-                    </div>
-                    <div class="koleksi-type-2">
-                      <label>Cuaca yang Cocok:</label><br>
-                      <select name="weather">
-                        <option value="Sunny">Sunny</option>
-                        <option value="Rain">Rain</option>
-                        <option value="Cold">Cold</option>
-                        <option value="Cloudy">Cloudy</option>
-                        <option value="Snow">Snow</option>
-                        <option value="Windy">Windy</option>
-                      </select>
-                    </div>
-                  </div>
-
-                  <div class="koleksi-preview">
-                    <div class="koleksi-preview-1">
-                      <label>Acara:</label><br>
-                      <input type="text" name="occasion"><br><br>
-                    </div>
-                    <div class="koleksi-preview-2">
-                      <label class="upload-box">
-                        <div class="upload-icon">＋</div>
-                        <div class="text-upload">Click or drag to upload image</div>
-                        <input type="file" name="image" accept="image/*" onchange="previewImage(event)">
-                        <img id="preview" alt="Image Preview">
-                      </label>
-                    </div>
-                  </div>
-
-                  <button type="submit">Simpan Outfit</button>
-              </form>
-            </div>
-            <div id="tersimpan" class="page" style="display: none;">
-              <iframe src="koleksi.php" frameborder="0"></iframe>
-            </div>
-            <i id="rekomendasi" class="page" style="display: none;">
-              <!-- Form untuk memilih cuaca -->
-              <form method="POST" action="recomendation.php" id="rekomendasi-outfit">
-                  <label for="cuaca">Pilih Cuaca:</label>
-                  <select name="cuaca" id="cuaca" required >
-                      <option value="">-- Pilih Cuaca --</option>
-                      <option value="Sunny">Sunny</option>
-                      <option value="Rain">Rain</option>
-                      <option value="Cold">Cold</option>
-                      <option value="Cloudy">Cloudy</option>
-                      <option value="Snow">Snow</option>
-                      <option value="Windy">Windy</option>
-                  </select>
-                  <button type="submit">Tampilkan Rekomendasi</button>
-              </form>
-              <div id="hasil"></div>
-            </i>
-            <div id="kalendar" class="page" style="display: none;">ini halaman kalendar outfit</div>
-          </div>
-        </div>
-      </div>
-    </section>
 
     <section class="cta-section">
       <div class="container">
@@ -547,8 +371,6 @@ extract($data);
         <button class="btn btn-primary">Daftar Sekarang</button>
       </div>
     </section>
-  </main>
-
   <footer>
     <div class="container">
       <div class="footer-content">

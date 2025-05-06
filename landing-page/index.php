@@ -1,3 +1,48 @@
+<?php
+$apiKey = "ed74b9f8b107607666e6e7a849dc41c8"; // Ganti API Key
+$lat = $_GET['lat'] ?? null ;  // default Jakarta
+$lon = $_GET['lon'] ?? null ;
+$cacheFile = 'cuaca-cache.json';
+$cacheKey = md5($lat . $lon);
+$cacheTime = 600; // 10 menit
+
+$data = null;
+
+if (file_exists($cacheFile)) {
+    $allCache = json_decode(file_get_contents($cacheFile), true);
+    if (isset($allCache[$cacheKey]) && (time() - $allCache[$cacheKey]['timestamp'] < $cacheTime)) {
+        $data = $allCache[$cacheKey]['data'];
+    }
+}
+
+if (!$data) {
+    $url = "https://api.openweathermap.org/data/2.5/weather?lat=$lat&lon=$lon&appid=$apiKey&units=metric&lang=id";
+    $response = file_get_contents($url);
+    $json = json_decode($response, true);
+
+    $data = [
+        "temp" => round($json['main']['temp']),
+        "feels_like" => round($json['main']['feels_like']),
+        "humidity" => $json['main']['humidity'],
+        "wind_speed" => $json['wind']['speed'],
+        "description" => ucwords($json['weather'][0]['description']),
+        "icon" => $json['weather'][0]['main'],
+        "city" => $json['name'],
+        "date" => date('l, j F')
+    ];
+
+    $allCache[$cacheKey] = [
+        "timestamp" => time(),
+        "data" => $data
+    ];
+    file_put_contents($cacheFile, json_encode($allCache));
+}
+
+// Data ke variabel
+extract($data);
+
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,6 +54,7 @@
     <link rel="stylesheet" href="css/hero.css">
     <link rel="stylesheet" href="css/features.css">
     <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="css/weather.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
@@ -25,8 +71,8 @@
                 </div>
             </div> -->
             <div class="login-buttons">
-                <a href="../login/login.html" class="btn btn-outline">Login as User</a>
-                <a href="../login/login.html" class="btn btn-primary">Login as Admin</a>
+                <!-- <a href="../login/login.html" class="btn btn-outline">Login as User</a> -->
+                <a href="../login/login.html" class="btn btn-primary">Sign In</a>
             </div>
             <div class="menu-toggle">
                 <i class="fas fa-bars"></i>
@@ -90,6 +136,54 @@
             </div>
         </div>
     </section>
+    <section class="weather-section">
+        <div class="container">
+          <div class="section-title">
+            <h2>Cuaca Mempengaruhi Gaya</h2>
+            <p>OutfitMate memanfaatkan data cuaca terkini untuk membantu Anda berpakaian sesuai kondisi</p>
+          </div>
+          <div class="weather-container">
+            <div class="weather-info">
+              <h2>Pakaian yang Tepat untuk Setiap Cuaca</h2><br>
+              <p>OutfitMate mengintegrasikan data cuaca real-time untuk memberikan rekomendasi outfit yang benar-benar sesuai dengan kondisi hari ini.</p>
+              <p>Dari hari yang panas hingga musim hujan, kami memastikan Anda tetap nyaman dan stylish sepanjang hari.</p>
+              <p style="font-weight : 700 ">Ingin tau gaya apa yang sesuai denganmu hari ini</p>
+              <a href="../login/login.html"><button class="btn btn-primary">login disini</button></a>
+            </div>
+            <div class="weather-card">
+              <div class="weather-card-header">
+                <div>
+                  <!-- <h3>Jakarta</h3>
+                  <p>Selasa, 17 April</p> -->
+                  <h3><?= $city ?></h3>
+                  <p><?= $date ?></p>
+                </div>
+                <div class="weather-icon">
+                  ☀️
+                </div>
+              </div>
+              <div class="weather-temperature">
+                <?= $temp ?>°C
+              </div>
+              <p>Cerah Berawan</p>
+              <div class="weather-details">
+                <div class="weather-detail">
+                  💧
+                  <span><?= $humidity ?>% Kelembaban</span>
+                </div>
+                <div class="weather-detail">
+                  💨
+                  <span><?= $wind_speed ?> km/j Angin</span>
+                </div>
+                <div class="weather-detail">
+                  🌡️
+                  <span>Terasa seperti <?= $feels_like ?>°C</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
 
     <!-- CTA Section -->
     <section class="cta">
@@ -139,5 +233,29 @@
 
     <script src="js/main.js"></script>
     <script src="js/weather.js"></script>
+    <script>
+        // Cek apakah URL sudah punya koordinat
+    const urlParams = new URLSearchParams(window.location.search);
+    const lat = urlParams.get("lat");
+    const lon = urlParams.get("lon");
+
+    // Kalau belum ada lat & lon, baru ambil lokasi dari browser
+    if (!lat || !lon) {
+        if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function (position) {
+            const latitude = position.coords.latitude;
+            const longitude = position.coords.longitude;
+
+            // Tambahkan ke URL dan redirect hanya sekali
+            const newUrl = window.location.pathname + `?lat=${latitude}&lon=${longitude}`;
+            window.location.href = newUrl;
+        }, function (error) {
+            alert("Gagal mendapatkan lokasi. Silakan izinkan akses lokasi.");
+        });a
+        } else {
+        alert("Geolocation tidak didukung oleh browser ini.");
+        }
+    }
+  </script>
 </body>
 </html>
