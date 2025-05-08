@@ -19,30 +19,26 @@ if ($conn->connect_error) {
     //         echo "<script>alert('Outfit berhasil dihapus!');</script>";
     //     } else {
     //         echo "<script>alert('Gagal menghapus outfit!');</script>";
-    //     }    
+    //     }
     //     $stmt->close();
     // }else {
     //     echo "<script>alert('Tidak ada outfit yang dipilih!');</script>";
     // }
-    if (isset($_POST['outfit_id']) && isset($_SESSION['user'])) {
+    if (isset($_POST['outfit_id'])) {
         $outfit_id = $_POST['outfit_id'];
-        $firstname = $_SESSION['user']; // Dapatkan user login saat ini
-    
+
         // Pastikan outfit yang dihapus memang milik user yang sedang login
-        $sql = "DELETE o.* 
-                FROM outfits o
-                JOIN users u ON u.id = o.user_id
-                WHERE o.outfit_id = ? AND u.firstname = ?";
-    
+        $sql = "DELETE FROM outfits WHERE outfit_id = ?" ;
+
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param("is", $outfit_id, $firstname);
-    
+        $stmt->bind_param("i", $outfit_id);
+
         if ($stmt->execute()) {
             echo "<script>alert('Outfit berhasil dihapus!'); window.location.href='halaman_outfit.php';</script>";
         } else {
             echo "<script>alert('Gagal menghapus outfit!'); window.history.back();</script>";
         }
-    
+
         $stmt->close();
     } else {
         echo "<script>alert('Tidak ada outfit yang dipilih!'); window.history.back();</script>";

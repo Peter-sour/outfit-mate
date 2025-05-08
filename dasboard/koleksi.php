@@ -1,7 +1,6 @@
 <?php
 session_start(); // Memulai session untuk mengambil firstname
 // Mengambil firstname dari session
-$firstname = $_SESSION['user']; 
 // Membuat koneksi ke database
 $conn = new mysqli("localhost", "root", "", "outfit_mate"); // Ganti dengan username dan password database Anda
 
@@ -13,15 +12,13 @@ if ($conn->connect_error) {
 
 // Menggunakan JOIN untuk mengambil data outfit dan user_id sekaligus
 $sql = "
-    SELECT o.outfit_id, o.name, o.category, o.color, o.image_path
-    FROM outfits o
-    JOIN users u ON u.id = o.user_id
-    WHERE u.firstname = ?  ";
+    SELECT outfit_id, age_group, gender, event_type, outfit_name, caption, image_path, weather
+FROM outfits;";
 
-$stmt = $conn->prepare($sql);
-$stmt->bind_param("s", $firstname);
-$stmt->execute();
-$result = $stmt->get_result();
+// $stmt = $conn->prepare($sql);
+// $stmt->bind_param("i", $outfit_id); // "s" untuk string
+// $stmt->execute();
+$result = $conn->query($sql);
 
 // Menampilkan data outfit
 if ($result->num_rows > 0) {
@@ -119,51 +116,51 @@ if ($result->num_rows > 0) {
         }
 
         </style>";
-        
+
         // Display outfit information
         echo "<div class='outfit-card'>";
         echo "<div class='outfit-image'>";
-        echo "<img src='" . $row['image_path'] . "' alt='" . $row['name'] . "'>";
+        echo "<img src='" . $row['image_path'] . "' alt='" . $row['outfit_name'] . "'>";
         echo "</div>";
         echo "<div class='outfit-info'>";
-        echo "<h3 class='outfit-name'>" . $row['name'] . "</h3>";
-        echo "<p class='outfit-detail'>Category: <span>" . $row['category'] . "</span></p>";
-        
-        // Create color display with dot
-        $colorValue = $row['color'];
-        $colorMap = [
-            'hitam'     => '#000000',
-            'putih'     => '#ffffff',
-            'merah'     => '#e74c3c',
-            'biru'      => '#3498db',
-            'hijau'     => '#2ecc71',
-            'kuning'    => '#f1c40f',
-            'abu-abu'   => '#7f8c8d',
-            'oranye'    => '#e67e22',
-            'ungu'      => '#9b59b6',
-            'coklat'    => '#8e5c42',
-            'pink'      => '#ff69b4',
-            'emas'      => '#ffd700',
-            'silver'    => '#c0c0c0',
-            'navy'      => '#34495e',
-            'toska'     => '#1abc9c',
-            'lime'      => '#a4de02',
-            'maroon'    => '#800000',
-            'cyan'      => '#00ffff',
-            'magenta'   => '#ff00ff',
-            'lavender'  => '#e6e6fa',
-            'salmon'    => '#fa8072',
-            'peach'     => '#ffe5b4',
-            'tan'       => '#d2b48c',
-            'olive'     => '#808000',
-            'teal'      => '#008080',
-            // Add more color mappings as needed
-        ];
-        
-        $hexColor = isset($colorMap[$colorValue]) ? $colorMap[$colorValue] : '#777777';
-        
-        echo "<p class='outfit-detail'><span class='color-dot' style='background-color: $hexColor;'></span>Color: <span>" . $colorValue . "</span></p>";
-        // Form untuk delete outfit
+        echo "<h3 class='outfit-name'>" . $row['outfit_name'] . "</h3>";
+        echo "<p class='outfit-detail'>Category: <span>" . $row['caption'] . "</span></p>";
+
+        // // Create color display with dot
+        // $colorValue = $row['color'];
+        // $colorMap = [
+        //     'hitam'     => '#000000',
+        //     'putih'     => '#ffffff',
+        //     'merah'     => '#e74c3c',
+        //     'biru'      => '#3498db',
+        //     'hijau'     => '#2ecc71',
+        //     'kuning'    => '#f1c40f',
+        //     'abu-abu'   => '#7f8c8d',
+        //     'oranye'    => '#e67e22',
+        //     'ungu'      => '#9b59b6',
+        //     'coklat'    => '#8e5c42',
+        //     'pink'      => '#ff69b4',
+        //     'emas'      => '#ffd700',
+        //     'silver'    => '#c0c0c0',
+        //     'navy'      => '#34495e',
+        //     'toska'     => '#1abc9c',
+        //     'lime'      => '#a4de02',
+        //     'maroon'    => '#800000',
+        //     'cyan'      => '#00ffff',
+        //     'magenta'   => '#ff00ff',
+        //     'lavender'  => '#e6e6fa',
+        //     'salmon'    => '#fa8072',
+        //     'peach'     => '#ffe5b4',
+        //     'tan'       => '#d2b48c',
+        //     'olive'     => '#808000',
+        //     'teal'      => '#008080',
+        //     // Add more color mappings as needed
+        // ];
+
+        // $hexColor = isset($colorMap[$colorValue]) ? $colorMap[$colorValue] : '#777777';
+
+        // echo "<p class='outfit-detail'><span class='color-dot' style='background-color: $hexColor;'></span>Color: <span>" . $colorValue . "</span></p>";
+        // // Form untuk delete outfit
         echo "<form method='POST' action='delete_from.php'>
             <input type='hidden' name='outfit_id' value='" . $row['outfit_id'] . "'>
             <button type='submit' onclick='return confirm(\"Yakin ingin menghapus outfit ini?\")'>Delete</button>
@@ -175,7 +172,5 @@ if ($result->num_rows > 0) {
 } else {
     echo "Tidak ada data.";
 }
-
-$stmt->close();
 $conn->close();
 ?>

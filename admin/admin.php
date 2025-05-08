@@ -178,6 +178,20 @@
   #hasil{
     width: 100%;
   }
+  .footer-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background-color: #5b21b6;
+    color: white;
+    width: 100%;
+    padding: 15px ;
+    margin-top: 0;
+    margin-bottom: 0;
+    font-size: 14px;
+    color: #fff;
+  }
   </style>
 </head>
 <body>
@@ -211,6 +225,7 @@
                     <div class="menu" onclick="showPage('rekomendasi')">Rekomendasi</div>
                     <li><a href="#">Pengaturan</a></li>
                   </ul>
+
                 </div>
                 <div id="beranda" class="dashboard-main page">
                   <h3>Selamat Pagi,!</h3>
@@ -308,7 +323,7 @@
                   </form>
                 </div>
                 <div id="tersimpan" class="page" style="display: none;">
-                  <iframe src="koleksi.php" frameborder="0"></iframe>
+                  <iframe src="../dasboard/koleksi.php" frameborder="0"></iframe>
                 </div>
                 <i id="rekomendasi" class="page" style="display: none;">
                   <!-- Form untuk memilih cuaca -->
@@ -332,6 +347,9 @@
             </div>
           </div>
         </section>
+        <section class="footer-content">
+            <h5>&copy; 2023 OutfitMate. All rights reserved.</h5>
+          </section>
         <script src="../dasboard/page.js"></script>
         <script>
           $(document).ready(function() {

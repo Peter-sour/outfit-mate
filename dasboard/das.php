@@ -224,6 +224,33 @@ extract($data);
   #hasil{
     width: 100%;
   }
+  .koleksi-type-preview {
+    display: flex;
+    flex-direction: row;
+    gap: 15px;
+  }
+  .outfit-suggestions .container .section-title .koleksi-type-preview .koleksi-preview {
+    width: 200px;
+    flex: 1;
+    margin-top: 15px
+  }
+  .outfit-suggestions .container .section-title .koleksi-type-preview .koleksi-preview select {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    margin-bottom: 15px;
+    text-align-last:center;
+    border-radius: 25px;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    transition: border-color 0.3s ease;
+    cursor: pointer;
+  }
+  .outfit-suggestions .section-title{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
   </style>
 </head>
 <body>
@@ -301,6 +328,42 @@ extract($data);
         <div class="section-title">
           <h2>Outfit Pilihan</h2>
           <p>Contoh rekomendasi outfit yang akan Anda dapatkan berdasarkan preferensi Anda</p>
+          <div class="koleksi-type-preview">
+            <div class="koleksi-preview">
+              <select name="umur">
+                <option value="" disabled selected hidden>Pilih umur</option>
+                <option value="0-5">0–5 tahun</option>
+                <option value="6-12">6–12 tahun (Anak-anak)</option>
+                <option value="13-17">13–17 tahun (Remaja)</option>
+                <option value="18-24">18–24 tahun (Dewasa muda)</option>
+                <option value="25-34">25–34 tahun</option>
+                <option value="35-44">35–44 tahun</option>
+                <option value="45-59">45–59 tahun</option>
+                <option value="60+">60 tahun ke atas</option>
+              </select>
+            </div>
+            <div class="koleksi-preview">
+                <select name="kelamin">
+                  <option value="" disabled selected hidden>Pilih jenis kelamin</option>
+                  <option value="Laki-laki">Laki-laki</option>
+                  <option value="Perempuan">Perempuan</option>
+                  <option value="Non-biner">Non-biner</option>
+                  <option value="Lainnya">Lainnya</option>
+                  <option value="Tidak ingin menyebutkan">Tidak ingin menyebutkan</option>
+                </select>
+              </div>
+              <div class="koleksi-preview">
+                <select name="event">
+                  <option value="" disabled selected hidden>Pilih ketik acara</option>
+                  <option value="Pesta">Pesta</option>
+                  <option value="Olahraga">Olahraga</option>
+                  <option value="Santai">Santai</option>
+                  <option value="Kerja">Kerja</option>
+                  <option value="Sekolah">Sekolah</option>
+                  <option value="Lainnya">Lainnya</option>
+                </select>
+              </div>
+          </div>
         </div>
         <div class="outfit-cards">
           <div class="outfit-card">

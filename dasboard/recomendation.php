@@ -39,8 +39,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $cuaca = $_POST['cuaca'];
 
     // Ambil outfit sesuai cuaca dan user login
-    $sql = "SELECT name, category, color, image_path 
-            FROM outfits 
+    $sql = "SELECT name, category, color, image_path
+            FROM outfits
             WHERE weather = ? AND user_id = ?";
 
     $stmt = $conn->prepare($sql);
