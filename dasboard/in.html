@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <section>
+    <div class="koleksi-type-preview">
+      <div class="koleksi-preview">
+        <select id="umur">
+          <option value="">Pilih umur</option>
+          <option value="0-5">0–5 tahun</option>
+          <option value="6-12">6–12 tahun</option>
+          <!-- dst -->
+        </select>
+      </div>
+      <div class="koleksi-preview">
+        <select id="kelamin">
+          <option value="">Pilih jenis kelamin</option>
+          <option value="Laki-laki">Laki-laki</option>
+          <option value="Perempuan">Perempuan</option>
+        </select>
+      </div>
+      <div class="koleksi-preview">
+        <select id="event">
+          <option value="">Pilih jenis acara</option>
+          <option value="Pesta">Pesta</option>
+          <option value="Olahraga">Olahraga</option>
+        </select>
+      </div>
+    </div>
+  </section>
+
+<!-- Container hasil -->
+<div id="outfit-cards"></div>
+
+<script>
+  // Jalankan saat dropdown berubah
+  const selects = document.querySelectorAll('select');
+  selects.forEach(select => {
+    select.addEventListener('change', () => {
+      const umur = document.getElementById('umur').value;
+      const kelamin = document.getElementById('kelamin').value;
+      const event = document.getElementById('event').value;
+
+      // Kirim AJAX request ke PHP
+      fetch(`outfit-fetch.php?umur=${umur}&kelamin=${kelamin}&event=${event}`)
+        .then(response => response.text())
+        .then(html => {
+          document.getElementById('outfit-cards').innerHTML = html;
+        });
+    });
+  });
+</script>
+
+</body>
+</html>

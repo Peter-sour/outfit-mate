@@ -30,7 +30,7 @@ function dapatkanUserId($username, $koneksi) {
     $stmt->bind_param("s", $username);
     $stmt->execute();
     $result = $stmt->get_result();
-    
+
     if ($result->num_rows > 0) {
         $row = $result->fetch_assoc();
         return $row['id'];
@@ -44,17 +44,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $user_id = dapatkanUserId($_SESSION['user'], $koneksi);
     // $outfit_id = dapatkanOutfitIdTerbaru($koneksi);
 
-    
+
     if (!$user_id) {
         die("User tidak ditemukan");
     }
 
     // 5. Ambil Data dari Form
     $nama_outfit = $koneksi->real_escape_string($_POST['name']);
-    $kategori = $koneksi->real_escape_string($_POST['category']);
-    $warna = $koneksi->real_escape_string($_POST['color']);
+    $umur = $koneksi->real_escape_string($_POST['umur']);
+    $kelamin = $koneksi->real_escape_string($_POST['kelamin']);
     $cuaca = $koneksi->real_escape_string($_POST['weather']);
-    $acara = $koneksi->real_escape_string($_POST['occasion']);
+    $acara = $koneksi->real_escape_string($_POST['event']);
 
     // 6. Handle Upload Gambar
     $lokasi_gambar = null;
@@ -68,7 +68,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Validasi tipe file
         $tipe_diizinkan = ['image/jpeg', 'image/png', 'image/gif'];
         $tipe_file = $_FILES['image']['type'];
-        
+
         if (in_array($tipe_file, $tipe_diizinkan)) {
             $ekstensi = pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION);
             $nama_file = uniqid('outfit_') . '.' . $ekstensi;
@@ -81,15 +81,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     // 7. Simpan ke Database
-    $stmt = $koneksi->prepare("INSERT INTO outfits (user_id, name, category, color, weather, occasion, image_path) 
-                              VALUES (?, ?, ?, ?, ?, ?, ?)");
-    $stmt->bind_param("issssss", $user_id,$nama_outfit, $kategori, $warna, $cuaca, $acara, $lokasi_gambar);
+    $stmt = $koneksi->prepare("INSERT INTO outfits (outfit_id, gender, event_type, outfit_name, caption, image_path,weather)
+                              VALUES (?, ?, ?, ?, ?, ?,?)");
+    $stmt->bind_param("issssss", $user_id,$kelamin, $acara, $nama_outfit, $acara, $lokasi_gambar,$cuaca);
 
     if ($stmt->execute()) {
-        header("Location: ../dasboard/das.php?page=koleksi&sukses=1");
+        header("Location: ../admin/admin.php?page=koleksi&sukses=1");
         exit;
     } else {
-        header("Location: ../dasboard/das.php?page=koleksi&error=1");
+        header("Location: ../admin/admin.php?page=koleksi&error=1");
         exit;
     }
 } else {

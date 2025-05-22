@@ -358,5 +358,24 @@
             });
           });
         </script>
+        <script>
+  function previewImage(event) {
+    const file = event.target.files[0];
+    const preview = document.getElementById('preview');
+
+    if (file && file.type.startsWith('image/')) {
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        preview.src = e.target.result;
+        preview.style.display = 'block'; // Show image
+      };
+      reader.readAsDataURL(file);
+    } else {
+      preview.src = '';
+      preview.style.display = 'none'; // Hide image if not valid
+      alert('Please select a valid image file.');
+    }
+  }
+</script>   
 </body>
 </html>

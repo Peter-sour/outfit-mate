@@ -251,6 +251,71 @@ extract($data);
     flex-direction: column;
     align-items: center;
   }
+  #outfit-cards{
+    max-height: 400px;
+    width: 100%;
+    overflow-y: auto;
+  }
+  #outfit-cards {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.outfit-card {
+  background-color: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+  min-width: 300px;
+  max-width: 300px;
+  flex-shrink: 0;
+  scroll-snap-align: start;
+  transition: transform 0.3s ease;
+}
+
+.outfit-card:hover {
+  transform: scale(1.03);
+}
+
+.outfit-image img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-top-left-radius: 16px;
+  border-top-right-radius: 16px;
+}
+
+.outfit-info {
+  padding: 12px 16px;
+}
+
+.outfit-info h3 {
+  font-size: 18px;
+  margin: 0 0 8px;
+  color: #333;
+}
+
+.outfit-info p {
+  font-size: 14px;
+  color: #666;
+}
+.outfit-meta{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+}
+.outfit-meta div{
+  background-color:gray;
+  margin-bottom: 15px;
+  padding: 8px 6px;
+  border-radius: 10px;
+}
   </style>
 </head>
 <body>
@@ -330,7 +395,7 @@ extract($data);
           <p>Contoh rekomendasi outfit yang akan Anda dapatkan berdasarkan preferensi Anda</p>
           <div class="koleksi-type-preview">
             <div class="koleksi-preview">
-              <select name="umur">
+              <select name="umur" id="umur">
                 <option value="" disabled selected hidden>Pilih umur</option>
                 <option value="0-5">0–5 tahun</option>
                 <option value="6-12">6–12 tahun (Anak-anak)</option>
@@ -343,7 +408,7 @@ extract($data);
               </select>
             </div>
             <div class="koleksi-preview">
-                <select name="kelamin">
+                <select name="kelamin" id="kelamin">
                   <option value="" disabled selected hidden>Pilih jenis kelamin</option>
                   <option value="Laki-laki">Laki-laki</option>
                   <option value="Perempuan">Perempuan</option>
@@ -353,7 +418,7 @@ extract($data);
                 </select>
               </div>
               <div class="koleksi-preview">
-                <select name="event">
+                <select name="event" id="event">
                   <option value="" disabled selected hidden>Pilih ketik acara</option>
                   <option value="Pesta">Pesta</option>
                   <option value="Olahraga">Olahraga</option>
@@ -364,68 +429,10 @@ extract($data);
                 </select>
               </div>
           </div>
-        </div>
-        <div class="outfit-cards">
-          <div class="outfit-card">
-            <div class="outfit-image">
-              <img src="/api/placeholder/300/200" alt="Outfit Casual">
-            </div>
-            <div class="outfit-info">
-              <h3>Casual Workday</h3>
-              <p>Sempurna untuk hari kerja santai atau pertemuan informal.</p>
-              <div class="outfit-tags">
-                <span class="tag">Casual</span>
-                <span class="tag">Office</span>
-                <span class="tag">Comfortable</span>
-              </div>
-            </div>
-          </div>
-          <div class="outfit-card">
-            <div class="outfit-image">
-              <img src="#" alt="Outfit Formal">
-            </div>
-            <div class="outfit-info">
-              <h3>Business Meeting</h3>
-              <p>Tampil profesional dan percaya diri dalam pertemuan penting.</p>
-              <div class="outfit-tags">
-                <span class="tag">Formal</span>
-                <span class="tag">Professional</span>
-                <span class="tag">Meeting</span>
-              </div>
-            </div>
-          </div>
-          <div class="outfit-card">
-            <div class="outfit-image">
-              <img src="/api/placeholder/300/200" alt="Outfit Weekend">
-            </div>
-            <div class="outfit-info">
-              <h3>Weekend Relax</h3>
-              <p>Pakaian nyaman namun tetap stylish untuk akhir pekan Anda.</p>
-              <div class="outfit-tags">
-                <span class="tag">Weekend</span>
-                <span class="tag">Relaxed</span>
-                <span class="tag">Comfortable</span>
-              </div>
-            </div>
-          </div>
-          <div class="outfit-card">
-            <div class="outfit-image">
-              <img src="/api/placeholder/300/200" alt="Outfit Party">
-            </div>
-            <div class="outfit-info">
-              <h3>Night Out</h3>
-              <p>Bersiap untuk malam yang menyenangkan dengan teman-teman.</p>
-              <div class="outfit-tags">
-                <span class="tag">Party</span>
-                <span class="tag">Night</span>
-                <span class="tag">Stylish</span>
-              </div>
-            </div>
-          </div>
+          <div id="outfit-cards"></div>
         </div>
       </div>
     </section>
-
 
     <section class="cta-section">
       <div class="container">
@@ -539,6 +546,23 @@ extract($data);
                 console.error('Error:', error);
             });
         });
+    </script>
+    <script>
+      const selects = document.querySelectorAll('select');
+      selects.forEach(select => {
+        select.addEventListener('change', () => {
+          const umur = document.getElementById('umur').value;
+          const kelamin = document.getElementById('kelamin').value;
+          const event = document.getElementById('event').value;
+
+          // Kirim AJAX request ke PHP
+          fetch(`outfit-fetch.php?umur=${umur}&kelamin=${kelamin}&event=${event}`)
+            .then(response => response.text())
+            .then(html => {
+              document.getElementById('outfit-cards').innerHTML = html;
+            });
+        });
+      });
     </script>
 </body>
 </html>
