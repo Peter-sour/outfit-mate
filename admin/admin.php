@@ -222,8 +222,6 @@
                     <div class="menu" onclick="showPage('beranda')">Beranda</div>
                     <div class="menu" onclick="showPage('koleksi')">Koleksi Pakaian</div>
                     <div class="menu" onclick="showPage('tersimpan')">Outfit Tersimpan</div>
-                    <div class="menu" onclick="showPage('rekomendasi')">Rekomendasi</div>
-                    <li><a href="#">Pengaturan</a></li>
                   </ul>
 
                 </div>
@@ -260,11 +258,8 @@
                             <option value="0-5">0–5 tahun</option>
                             <option value="6-12">6–12 tahun (Anak-anak)</option>
                             <option value="13-17">13–17 tahun (Remaja)</option>
-                            <option value="18-24">18–24 tahun (Dewasa muda)</option>
-                            <option value="25-34">25–34 tahun</option>
-                            <option value="35-44">35–44 tahun</option>
-                            <option value="45-59">45–59 tahun</option>
-                            <option value="60+">60 tahun ke atas</option>
+                            <option value="18-24">18–24 tahun (Dewasa)</option>
+                            <option value="25+">25 tahun ke atas</option>
                           </select>
                         </div>
                       </div>
@@ -278,9 +273,6 @@
                             <option value="">Pilih jenis kelamin</option>
                             <option value="Laki-laki">Laki-laki</option>
                             <option value="Perempuan">Perempuan</option>
-                            <option value="Non-biner">Non-biner</option>
-                            <option value="Lainnya">Lainnya</option>
-                            <option value="Tidak ingin menyebutkan">Tidak ingin menyebutkan</option>
                           </select>
                         </div>
                         <div class="koleksi-type-2">
@@ -325,30 +317,13 @@
                 <div id="tersimpan" class="page" style="display: none;">
                   <iframe src="../dasboard/koleksi.php" frameborder="0"></iframe>
                 </div>
-                <i id="rekomendasi" class="page" style="display: none;">
-                  <!-- Form untuk memilih cuaca -->
-                  <form method="POST" action="recomendation.php" id="rekomendasi-outfit">
-                      <label for="cuaca">Pilih Cuaca:</label>
-                      <select name="cuaca" id="cuaca" required >
-                          <option value="">-- Pilih Cuaca --</option>
-                          <option value="Sunny">Sunny</option>
-                          <option value="Rain">Rain</option>
-                          <option value="Cold">Cold</option>
-                          <option value="Cloudy">Cloudy</option>
-                          <option value="Snow">Snow</option>
-                          <option value="Windy">Windy</option>
-                      </select>
-                      <button type="submit">Tampilkan Rekomendasi</button>
-                  </form>
-                  <div id="hasil"></div>
-                </i>
                 <div id="kalendar" class="page" style="display: none;">ini halaman kalendar outfit</div>
               </div>
             </div>
           </div>
         </section>
         <section class="footer-content">
-            <h5>&copy; 2023 OutfitMate. All rights reserved.</h5>
+            <h5>&copy; 2025 OutfitMate. All rights reserved.</h5>
           </section>
         <script src="../dasboard/page.js"></script>
         <script>

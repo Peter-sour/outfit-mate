@@ -329,9 +329,8 @@ extract($data);
         <div class="nav-links">
           <a href="#">Beranda</a>
           <a href="#">Fitur</a>
-          <a href="#">Blog</a>
+          <a href="#">Rekomendasi</a>
           <a href="#">Tentang</a>
-          <a href="#">Kontak</a>
         </div>
         <div class="auth-buttons">
           <form action="logout.php" method="POST">
@@ -401,10 +400,7 @@ extract($data);
                 <option value="6-12">6–12 tahun (Anak-anak)</option>
                 <option value="13-17">13–17 tahun (Remaja)</option>
                 <option value="18-24">18–24 tahun (Dewasa muda)</option>
-                <option value="25-34">25–34 tahun</option>
-                <option value="35-44">35–44 tahun</option>
-                <option value="45-59">45–59 tahun</option>
-                <option value="60+">60 tahun ke atas</option>
+                <option value="25+">25 tahun ke atas</option>
               </select>
             </div>
             <div class="koleksi-preview">
@@ -412,9 +408,6 @@ extract($data);
                   <option value="" disabled selected hidden>Pilih jenis kelamin</option>
                   <option value="Laki-laki">Laki-laki</option>
                   <option value="Perempuan">Perempuan</option>
-                  <option value="Non-biner">Non-biner</option>
-                  <option value="Lainnya">Lainnya</option>
-                  <option value="Tidak ingin menyebutkan">Tidak ingin menyebutkan</option>
                 </select>
               </div>
               <div class="koleksi-preview">
