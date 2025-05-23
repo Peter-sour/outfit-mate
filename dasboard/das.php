@@ -328,9 +328,9 @@ extract($data);
         </div>
         <div class="nav-links">
           <a href="#">Beranda</a>
-          <a href="#">Fitur</a>
-          <a href="#">Rekomendasi</a>
-          <a href="#">Tentang</a>
+          <a href="#info">Info</a>
+          <a href="#rec">Rekomendasi</a>
+          <a href="#tentang">Tentang</a>
         </div>
         <div class="auth-buttons">
           <form action="logout.php" method="POST">
@@ -361,10 +361,10 @@ extract($data);
       </div>
     </section>
 
-    <section class="features">
+    <section id="info" class="features">
       <div class="container">
-        <div class="section-title">
-          <h2>Fitur Utama</h2>
+        <div class="section-title"> 
+          <h2>Info</h2>
           <p>OutfitMate hadir dengan berbagai fitur untuk memudahkan pemilihan outfit harian Anda</p>
         </div>
         <div class="features-grid">
@@ -387,7 +387,7 @@ extract($data);
       </div>
     </section>
 
-    <section class="outfit-suggestions">
+    <section id="rec" class="outfit-suggestions">
       <div class="container">
         <div class="section-title">
           <h2>Outfit Pilihan</h2>
@@ -399,7 +399,7 @@ extract($data);
                 <option value="0-5">0–5 tahun</option>
                 <option value="6-12">6–12 tahun (Anak-anak)</option>
                 <option value="13-17">13–17 tahun (Remaja)</option>
-                <option value="18-24">18–24 tahun (Dewasa muda)</option>
+                <option value="18-24">18–24 tahun (Dewasa)</option>
                 <option value="25+">25 tahun ke atas</option>
               </select>
             </div>
@@ -427,7 +427,7 @@ extract($data);
       </div>
     </section>
 
-    <section class="cta-section">
+    <section id="tentang" class="cta-section">
       <div class="container">
         <h2>Mulai Tentukan Gaya Anda Hari Ini</h2>
         <p>Bergabunglah dengan ribuan orang yang telah mengatasi kebingungan memilih pakaian setiap hari. Daftar gratis sekarang!</p>
