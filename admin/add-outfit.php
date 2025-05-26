@@ -14,15 +14,15 @@ if ($koneksi->connect_error) {
     die("Koneksi gagal: " . $koneksi->connect_error);
 }
 
-// function dapatkanOutfitIdTerbaru($koneksi) {
-//     $sql = "SELECT MAX(outfit_id) AS max_id FROM outfits";
-//     $result = $koneksi->query($sql);
-//     if (!$result) {
-//         die('Error pada query: ' . $koneksi->error); // Menangani error pada query
-//     }
-//     $row = $result->fetch_assoc();
-//     return $row['max_id'] ? $row['max_id'] + 1 : 1; // jika tidak ada data, mulai dari 1
-// }
+function dapatkanOutfitIdTerbaru($koneksi) {
+    $sql = "SELECT MAX(outfit_id) AS max_id FROM outfits";
+    $result = $koneksi->query($sql);
+    if (!$result) {
+        die('Error pada query: ' . $koneksi->error); // Menangani error pada query
+    }
+    $row = $result->fetch_assoc();
+    return $row['max_id'] ? $row['max_id'] + 1 : 1; // jika tidak ada data, mulai dari 1
+}
 
 // 3. Fungsi untuk mendapatkan ID user
 // function dapatkanUserId($username, $koneksi) {
@@ -41,6 +41,7 @@ if ($koneksi->connect_error) {
 // 4. Proses Form Tambah Outfit
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Dapatkan ID user yang login
+<<<<<<< HEAD
     // $user_id = dapatkanUserId($_SESSION['user'], $koneksi);
     // $outfit_id = dapatkanOutfitIdTerbaru($koneksi);
 
@@ -48,6 +49,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // if (!$user_id) {
     //     die("User tidak ditemukan");
     // }
+=======
+    // $user_id = dapatkanUserId();
+    $outfit_id = dapatkanOutfitIdTerbaru($koneksi);
+
+
+
+
+>>>>>>> abce42363b9f879a2cdcaccd47a80127e4ee1b3c
 
     // 5. Ambil Data dari Form
     $nama_outfit = $koneksi->real_escape_string($_POST['name']);
@@ -81,9 +90,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     // 7. Simpan ke Database
+<<<<<<< HEAD
     $stmt = $koneksi->prepare("INSERT INTO outfits (gender, event_type, outfit_name,age_group, caption, image_path,weather)
                               VALUES (?, ?, ?,?, ?, ?,?)");
     $stmt->bind_param("sssssss", $kelamin, $acara,$nama_outfit,$umur, $acara, $lokasi_gambar,$cuaca);
+=======
+    $stmt = $koneksi->prepare("INSERT INTO outfits (outfit_id, gender, event_type, outfit_name, caption, image_path,weather, age_group)
+                              VALUES (?, ?, ?, ?, ?, ?,?,?)");
+    $stmt->bind_param("isssssss", $user_id,$kelamin, $acara, $nama_outfit, $acara, $lokasi_gambar,$cuaca,$umur);
+>>>>>>> abce42363b9f879a2cdcaccd47a80127e4ee1b3c
 
     if($stmt->execute()) {
         header("Location: ../admin/admin.php?page=koleksi&sukses=1");

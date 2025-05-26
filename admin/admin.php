@@ -2,7 +2,11 @@
 <?php
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
+<<<<<<< HEAD
 include '../dasboard/config.php';
+=======
+include '../dasboard/config.php';  
+>>>>>>> abce42363b9f879a2cdcaccd47a80127e4ee1b3c
 
 // Cek koneksi
 if (!$conn) {
@@ -23,8 +27,12 @@ $lastAdded = ($result3 && mysqli_num_rows($result3) > 0) ? mysqli_fetch_assoc($r
 $lastAddedFormatted = $lastAdded ? date("d M Y", strtotime($lastAdded)) : 'Belum ada data';
 ?>
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> abce42363b9f879a2cdcaccd47a80127e4ee1b3c
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -251,6 +259,7 @@ $lastAddedFormatted = $lastAdded ? date("d M Y", strtotime($lastAdded)) : 'Belum
 
                 </div>
                 <div id="beranda" class="dashboard-main page">
+<<<<<<< HEAD
                   <h3>Selamat Pagi,!</h3>
                   <p>Cek update outfit terbaru kamu di bawah ini:</p>
                   <div class="dashboard-cards">
@@ -266,8 +275,25 @@ $lastAddedFormatted = $lastAdded ? date("d M Y", strtotime($lastAdded)) : 'Belum
                       <h4>Terakhir Ditambahkan</h4>
                       <p><?php echo $lastAddedFormatted; ?></p>
                     </div>
+=======
+                <h3>Selamat Pagi, Admin!</h3>
+                <p>Cek update outfit terbaru kamu di bawah ini:</p>
+                <div class="dashboard-cards">
+                  <div class="dashboard-card">
+                    <h4>Total Pakaian</h4>
+                    <p><?php echo $totalPakaian; ?></p>
+                  </div>
+                  <div class="dashboard-card">
+                    <h4>Outfit Tersimpan</h4>
+                    <p><?php echo $totalTersimpan; ?></p>
+                  </div>
+                  <div class="dashboard-card">
+                    <h4>Terakhir Ditambahkan</h4>
+                    <p><?php echo $lastAddedFormatted; ?></p>
+>>>>>>> abce42363b9f879a2cdcaccd47a80127e4ee1b3c
                   </div>
                 </div>
+              </div>
                 <div id="koleksi" class="page" style="display: none;">
                     <form action="add-outfit.php" method="POST" enctype="multipart/form-data">
                       <h2>Tambah Outfit Baru</h2>
@@ -283,11 +309,8 @@ $lastAddedFormatted = $lastAdded ? date("d M Y", strtotime($lastAdded)) : 'Belum
                             <option value="0-5">0–5 tahun</option>
                             <option value="6-12">6–12 tahun (Anak-anak)</option>
                             <option value="13-17">13–17 tahun (Remaja)</option>
-                            <option value="18-24">18–24 tahun (Dewasa muda)</option>
-                            <option value="25-34">25–34 tahun</option>
-                            <option value="35-44">35–44 tahun</option>
-                            <option value="45-59">45–59 tahun</option>
-                            <option value="60+">60 tahun ke atas</option>
+                            <option value="18-24">18–24 tahun (Dewasa)</option>
+                            <option value="25+">25 tahun ke atas</option>
                           </select>
                         </div>
                       </div>
@@ -301,9 +324,6 @@ $lastAddedFormatted = $lastAdded ? date("d M Y", strtotime($lastAdded)) : 'Belum
                             <option value="">Pilih jenis kelamin</option>
                             <option value="Laki-laki">Laki-laki</option>
                             <option value="Perempuan">Perempuan</option>
-                            <option value="Non-biner">Non-biner</option>
-                            <option value="Lainnya">Lainnya</option>
-                            <option value="Tidak ingin menyebutkan">Tidak ingin menyebutkan</option>
                           </select>
                         </div>
                         <div class="koleksi-type-2">
@@ -348,30 +368,13 @@ $lastAddedFormatted = $lastAdded ? date("d M Y", strtotime($lastAdded)) : 'Belum
                 <div id="tersimpan" class="page" style="display: none;">
                   <iframe src="../dasboard/koleksi.php" frameborder="0"></iframe>
                 </div>
-                <i id="rekomendasi" class="page" style="display: none;">
-                  <!-- Form untuk memilih cuaca -->
-                  <form method="POST" action="recomendation.php" id="rekomendasi-outfit">
-                      <label for="cuaca">Pilih Cuaca:</label>
-                      <select name="cuaca" id="cuaca" required >
-                          <option value="">-- Pilih Cuaca --</option>
-                          <option value="Sunny">Sunny</option>
-                          <option value="Rain">Rain</option>
-                          <option value="Cold">Cold</option>
-                          <option value="Cloudy">Cloudy</option>
-                          <option value="Snow">Snow</option>
-                          <option value="Windy">Windy</option>
-                      </select>
-                      <button type="submit">Tampilkan Rekomendasi</button>
-                  </form>
-                  <div id="hasil"></div>
-                </i>
                 <div id="kalendar" class="page" style="display: none;">ini halaman kalendar outfit</div>
               </div>
             </div>
           </div>
         </section>
         <section class="footer-content">
-            <h5>&copy; 2023 OutfitMate. All rights reserved.</h5>
+            <h5>&copy; 2025 OutfitMate. All rights reserved.</h5>
           </section>
         <script src="../dasboard/page.js"></script>
         <script>

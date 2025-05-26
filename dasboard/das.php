@@ -117,6 +117,7 @@ extract($data);
         }
     </style>
 </head>
+<<<<<<< HEAD
 <body class="bg-gray-50 text-gray-900">
     <header class="fixed top-0 w-full z-50 glass-effect bg-white/80 border-b border-gray-200/50 transition-all duration-300">
         <div class="container mx-auto px-6 py-4">
@@ -125,6 +126,31 @@ extract($data);
                     <span class="text-3xl group-hover:scale-110 transition-transform duration-300">👔</span>
                     <span class="text-xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">OutfitMate</span>
                 </div>
+=======
+<body>
+  <header>
+    <div class="container">
+      <nav>
+        <div class="logo">
+          <span>👔</span>
+          <span>OutfitMate</span>
+        </div>
+        <div class="nav-links">
+          <a href="#">Beranda</a>
+          <a href="#info">Info</a>
+          <a href="#rec">Rekomendasi</a>
+          <a href="#tentang">Tentang</a>
+        </div>
+        <div class="auth-buttons">
+          <form action="logout.php" method="POST">
+            <!-- <button class="btn btn-outline">logout</button> -->
+            <button class="btn btn-primary" name="logout">Logout</button>
+          </form>
+        </div>
+      </nav>
+    </div>
+  </header>
+>>>>>>> abce42363b9f879a2cdcaccd47a80127e4ee1b3c
 
                 <div class="nav-links hidden md:flex items-center space-x-8">
                     <a href="#beranda" class="text-gray-700 hover:text-blue-600 transition-colors duration-300 font-medium relative group">
@@ -167,6 +193,7 @@ extract($data);
                 <div class="absolute bottom-20 right-20 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl"></div>
             </div>
 
+<<<<<<< HEAD
             <div class="container mx-auto px-6 relative z-10">
                 <div class="hero grid lg:grid-cols-2 gap-12 items-center">
                     <div class="hero-content fade-in">
@@ -351,6 +378,93 @@ extract($data);
             <div class="footer-bottom border-t border-gray-800 pt-8">
                 <p class="text-center text-gray-400">&copy; 2025 OutfitMate. Hak Cipta Dilindungi.</p>
             </div>
+=======
+    <section id="info" class="features">
+      <div class="container">
+        <div class="section-title"> 
+          <h2>Info</h2>
+          <p>OutfitMate hadir dengan berbagai fitur untuk memudahkan pemilihan outfit harian Anda</p>
+        </div>
+        <div class="features-grid">
+          <div class="feature-card">
+            <div class="feature-icon">☀️</div>
+            <h3>Rekomendasi Berbasis Cuaca</h3>
+            <p>Dapatkan saran outfit yang sesuai dengan cuaca hari ini di lokasi Anda. Tidak perlu khawatir kepanasan atau kedinginan.</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">👔</div>
+            <h3>Kelola Koleksi Wardrobe</h3>
+            <p>Simpan dan kelola semua pakaian yang Anda miliki. Kategorikan berdasarkan jenis, warna, dan gaya.</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">🎯</div>
+            <h3>Sesuaikan dengan Acara</h3>
+            <p>Tentukan outfit yang cocok untuk berbagai acara - mulai dari kerja, santai, hingga pesta formal.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="rec" class="outfit-suggestions">
+      <div class="container">
+        <div class="section-title">
+          <h2>Outfit Pilihan</h2>
+          <p>Contoh rekomendasi outfit yang akan Anda dapatkan berdasarkan preferensi Anda</p>
+          <div class="koleksi-type-preview">
+            <div class="koleksi-preview">
+              <select name="umur" id="umur">
+                <option value="" disabled selected hidden>Pilih umur</option>
+                <option value="0-5">0–5 tahun</option>
+                <option value="6-12">6–12 tahun (Anak-anak)</option>
+                <option value="13-17">13–17 tahun (Remaja)</option>
+                <option value="18-24">18–24 tahun (Dewasa)</option>
+                <option value="25+">25 tahun ke atas</option>
+              </select>
+            </div>
+            <div class="koleksi-preview">
+                <select name="kelamin" id="kelamin">
+                  <option value="" disabled selected hidden>Pilih jenis kelamin</option>
+                  <option value="Laki-laki">Laki-laki</option>
+                  <option value="Perempuan">Perempuan</option>
+                </select>
+              </div>
+              <div class="koleksi-preview">
+                <select name="event" id="event">
+                  <option value="" disabled selected hidden>Pilih ketik acara</option>
+                  <option value="Pesta">Pesta</option>
+                  <option value="Olahraga">Olahraga</option>
+                  <option value="Santai">Santai</option>
+                  <option value="Kerja">Kerja</option>
+                  <option value="Sekolah">Sekolah</option>
+                  <option value="Lainnya">Lainnya</option>
+                </select>
+              </div>
+          </div>
+          <div id="outfit-cards"></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="tentang" class="cta-section">
+      <div class="container">
+        <h2>Mulai Tentukan Gaya Anda Hari Ini</h2>
+        <p>Bergabunglah dengan ribuan orang yang telah mengatasi kebingungan memilih pakaian setiap hari. Daftar gratis sekarang!</p>
+        <button class="btn btn-primary">Daftar Sekarang</button>
+      </div>
+    </section>
+  <footer>
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-column">
+          <h3>OutfitMate</h3>
+          <p>Membantu Anda memilih pakaian yang tepat, setiap hari.</p>
+          <div class="social-icons">
+            <a href="#">FB</a>
+            <a href="#">IG</a>
+            <a href="#">TW</a>
+            <a href="#">YT</a>
+          </div>
+>>>>>>> abce42363b9f879a2cdcaccd47a80127e4ee1b3c
         </div>
     </footer>
     <script>
