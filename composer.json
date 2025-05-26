@@ -1,6 +1,7 @@
 {
     "name": "computer/mysql",
     "require": {
-        "google/apiclient": "2.15.0"
+        "google/apiclient": "2.15.0",
+        "mongodb/mongodb": "^2.0"
     }
 }

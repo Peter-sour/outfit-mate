@@ -1,4 +1,29 @@
 
+<?php
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
+include '../dasboard/config.php';
+
+// Cek koneksi
+if (!$conn) {
+    die("Koneksi gagal: " . mysqli_connect_error());
+}
+
+// Ambil total pakaian
+$result1 = mysqli_query($conn, "SELECT COUNT(*) AS total FROM outfits");
+$totalPakaian = ($result1 && mysqli_num_rows($result1) > 0) ? mysqli_fetch_assoc($result1)['total'] : 0;
+
+// Ambil total outfit tersimpan
+$result2 = mysqli_query($conn, "SELECT COUNT(*) AS total FROM outfits");
+$totalTersimpan = ($result2 && mysqli_num_rows($result2) > 0) ? mysqli_fetch_assoc($result2)['total'] : 0;
+
+// Ambil tanggal terakhir ditambahkan
+$result3 = mysqli_query($conn, "SELECT MAX(updated_at) AS last_added FROM outfits");
+$lastAdded = ($result3 && mysqli_num_rows($result3) > 0) ? mysqli_fetch_assoc($result3)['last_added'] : null;
+$lastAddedFormatted = $lastAdded ? date("d M Y", strtotime($lastAdded)) : 'Belum ada data';
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -222,8 +247,6 @@
                     <div class="menu" onclick="showPage('beranda')">Beranda</div>
                     <div class="menu" onclick="showPage('koleksi')">Koleksi Pakaian</div>
                     <div class="menu" onclick="showPage('tersimpan')">Outfit Tersimpan</div>
-                    <div class="menu" onclick="showPage('rekomendasi')">Rekomendasi</div>
-                    <li><a href="#">Pengaturan</a></li>
                   </ul>
 
                 </div>
@@ -233,15 +256,15 @@
                   <div class="dashboard-cards">
                     <div class="dashboard-card">
                       <h4>Total Pakaian</h4>
-                      <p>78</p>
+                      <p><?php echo $totalPakaian; ?></p>
                     </div>
                     <div class="dashboard-card">
                       <h4>Outfit Tersimpan</h4>
-                      <p>12</p>
+                      <p><?php echo $totalTersimpan; ?></p>
                     </div>
                     <div class="dashboard-card">
                       <h4>Terakhir Ditambahkan</h4>
-                      <p>5 hari lalu</p>
+                      <p><?php echo $lastAddedFormatted; ?></p>
                     </div>
                   </div>
                 </div>
@@ -376,6 +399,6 @@
       alert('Please select a valid image file.');
     }
   }
-</script>   
+</script>
 </body>
 </html>

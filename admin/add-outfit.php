@@ -25,29 +25,29 @@ if ($koneksi->connect_error) {
 // }
 
 // 3. Fungsi untuk mendapatkan ID user
-function dapatkanUserId($username, $koneksi) {
-    $stmt = $koneksi->prepare("SELECT id FROM users WHERE firstname = ?");
-    $stmt->bind_param("s", $username);
-    $stmt->execute();
-    $result = $stmt->get_result();
+// function dapatkanUserId($username, $koneksi) {
+//     $stmt = $koneksi->prepare("SELECT id FROM users WHERE firstname = ?");
+//     $stmt->bind_param("s", $username);
+//     $stmt->execute();
+//     $result = $stmt->get_result();
 
-    if ($result->num_rows > 0) {
-        $row = $result->fetch_assoc();
-        return $row['id'];
-    }
-    return null;
-}
+//     if ($result->num_rows > 0) {
+//         $row = $result->fetch_assoc();
+//         return $row['id'];
+//     }
+//     return null;
+// }
 
 // 4. Proses Form Tambah Outfit
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Dapatkan ID user yang login
-    $user_id = dapatkanUserId($_SESSION['user'], $koneksi);
+    // $user_id = dapatkanUserId($_SESSION['user'], $koneksi);
     // $outfit_id = dapatkanOutfitIdTerbaru($koneksi);
 
 
-    if (!$user_id) {
-        die("User tidak ditemukan");
-    }
+    // if (!$user_id) {
+    //     die("User tidak ditemukan");
+    // }
 
     // 5. Ambil Data dari Form
     $nama_outfit = $koneksi->real_escape_string($_POST['name']);
@@ -60,7 +60,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $lokasi_gambar = null;
     if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
         // Buat folder upload jika belum ada
-        $direktori_upload = 'uploads/outfits/';
+        $direktori_upload = '../dasboard/uploads/outfits/';
         if (!file_exists($direktori_upload)) {
             mkdir($direktori_upload, 0777, true);
         }
@@ -81,11 +81,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     // 7. Simpan ke Database
-    $stmt = $koneksi->prepare("INSERT INTO outfits (outfit_id, gender, event_type, outfit_name, caption, image_path,weather)
-                              VALUES (?, ?, ?, ?, ?, ?,?)");
-    $stmt->bind_param("issssss", $user_id,$kelamin, $acara, $nama_outfit, $acara, $lokasi_gambar,$cuaca);
+    $stmt = $koneksi->prepare("INSERT INTO outfits (gender, event_type, outfit_name,age_group, caption, image_path,weather)
+                              VALUES (?, ?, ?,?, ?, ?,?)");
+    $stmt->bind_param("sssssss", $kelamin, $acara,$nama_outfit,$umur, $acara, $lokasi_gambar,$cuaca);
 
-    if ($stmt->execute()) {
+    if($stmt->execute()) {
         header("Location: ../admin/admin.php?page=koleksi&sukses=1");
         exit;
     } else {
