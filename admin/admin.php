@@ -2,11 +2,8 @@
 <?php
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
-<<<<<<< HEAD
 include '../dasboard/config.php';
-=======
 include '../dasboard/config.php';  
->>>>>>> abce42363b9f879a2cdcaccd47a80127e4ee1b3c
 
 // Cek koneksi
 if (!$conn) {
@@ -27,10 +24,6 @@ $lastAdded = ($result3 && mysqli_num_rows($result3) > 0) ? mysqli_fetch_assoc($r
 $lastAddedFormatted = $lastAdded ? date("d M Y", strtotime($lastAdded)) : 'Belum ada data';
 ?>
 
-<<<<<<< HEAD
-
-=======
->>>>>>> abce42363b9f879a2cdcaccd47a80127e4ee1b3c
 <!DOCTYPE html>
 
 <html lang="en">
@@ -259,23 +252,6 @@ $lastAddedFormatted = $lastAdded ? date("d M Y", strtotime($lastAdded)) : 'Belum
 
                 </div>
                 <div id="beranda" class="dashboard-main page">
-<<<<<<< HEAD
-                  <h3>Selamat Pagi,!</h3>
-                  <p>Cek update outfit terbaru kamu di bawah ini:</p>
-                  <div class="dashboard-cards">
-                    <div class="dashboard-card">
-                      <h4>Total Pakaian</h4>
-                      <p><?php echo $totalPakaian; ?></p>
-                    </div>
-                    <div class="dashboard-card">
-                      <h4>Outfit Tersimpan</h4>
-                      <p><?php echo $totalTersimpan; ?></p>
-                    </div>
-                    <div class="dashboard-card">
-                      <h4>Terakhir Ditambahkan</h4>
-                      <p><?php echo $lastAddedFormatted; ?></p>
-                    </div>
-=======
                 <h3>Selamat Pagi, Admin!</h3>
                 <p>Cek update outfit terbaru kamu di bawah ini:</p>
                 <div class="dashboard-cards">
@@ -290,7 +266,6 @@ $lastAddedFormatted = $lastAdded ? date("d M Y", strtotime($lastAdded)) : 'Belum
                   <div class="dashboard-card">
                     <h4>Terakhir Ditambahkan</h4>
                     <p><?php echo $lastAddedFormatted; ?></p>
->>>>>>> abce42363b9f879a2cdcaccd47a80127e4ee1b3c
                   </div>
                 </div>
               </div>
@@ -310,7 +285,6 @@ $lastAddedFormatted = $lastAdded ? date("d M Y", strtotime($lastAdded)) : 'Belum
                             <option value="6-12">6–12 tahun (Anak-anak)</option>
                             <option value="13-17">13–17 tahun (Remaja)</option>
                             <option value="18-24">18–24 tahun (Dewasa)</option>
-                            <option value="25+">25 tahun ke atas</option>
                           </select>
                         </div>
                       </div>
@@ -348,7 +322,6 @@ $lastAddedFormatted = $lastAdded ? date("d M Y", strtotime($lastAdded)) : 'Belum
                             <option value="Olahraga">Olahraga</option>
                             <option value="Santai">Santai</option>
                             <option value="Kerja">Kerja</option>
-                            <option value="Sekolah">Sekolah</option>
                             <option value="Lainnya">Lainnya</option>
                           </select>
                         </div>

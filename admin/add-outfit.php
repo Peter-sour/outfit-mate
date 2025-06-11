@@ -41,23 +41,6 @@ function dapatkanOutfitIdTerbaru($koneksi) {
 // 4. Proses Form Tambah Outfit
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Dapatkan ID user yang login
-<<<<<<< HEAD
-    // $user_id = dapatkanUserId($_SESSION['user'], $koneksi);
-    // $outfit_id = dapatkanOutfitIdTerbaru($koneksi);
-
-
-    // if (!$user_id) {
-    //     die("User tidak ditemukan");
-    // }
-=======
-    // $user_id = dapatkanUserId();
-    $outfit_id = dapatkanOutfitIdTerbaru($koneksi);
-
-
-
-
->>>>>>> abce42363b9f879a2cdcaccd47a80127e4ee1b3c
-
     // 5. Ambil Data dari Form
     $nama_outfit = $koneksi->real_escape_string($_POST['name']);
     $umur = $koneksi->real_escape_string($_POST['umur']);
@@ -90,15 +73,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     // 7. Simpan ke Database
-<<<<<<< HEAD
     $stmt = $koneksi->prepare("INSERT INTO outfits (gender, event_type, outfit_name,age_group, caption, image_path,weather)
                               VALUES (?, ?, ?,?, ?, ?,?)");
     $stmt->bind_param("sssssss", $kelamin, $acara,$nama_outfit,$umur, $acara, $lokasi_gambar,$cuaca);
-=======
-    $stmt = $koneksi->prepare("INSERT INTO outfits (outfit_id, gender, event_type, outfit_name, caption, image_path,weather, age_group)
-                              VALUES (?, ?, ?, ?, ?, ?,?,?)");
-    $stmt->bind_param("isssssss", $user_id,$kelamin, $acara, $nama_outfit, $acara, $lokasi_gambar,$cuaca,$umur);
->>>>>>> abce42363b9f879a2cdcaccd47a80127e4ee1b3c
 
     if($stmt->execute()) {
         header("Location: ../admin/admin.php?page=koleksi&sukses=1");
