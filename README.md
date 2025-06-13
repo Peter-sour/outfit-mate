@@ -23,13 +23,8 @@ Welcome to **Outfit Mate**, your ultimate fashion assistant! Outfit Mate helps y
   
 - **Database**: 
   - **SQL**: Used for organizing data and queries for outfit management.
+  - **MongoDB**: Used for storing flexible, non-relational data such as user preferences or activity logs.  
   - **JSON**: Formatting data in a way that is easily readable and transferable.
-
-## 🌍 Live Demo
-
-Check out the live demo of Outfit Mate and start styling your outfits today!
-
-[Live Demo](#) *(Link placeholder)*
 
 ## 🏁 Getting Started
 
@@ -40,6 +35,8 @@ Before you begin, make sure you have the following installed:
 - **PHP**: Version 7.4 or higher
 - **MySQL**: Version 5.7 or higher
 - **Web Browser**: Chrome, Firefox, Safari, or Edge
+- **MongoDB**: Version 4.0 or higher
+- **Tailwind CSS**: Included via CDN
 
 ### Installation
 
@@ -85,16 +82,9 @@ For detailed installation instructions, check the [Installation Guide](#).
 After setting up the app, here’s how you can use **Outfit Mate**:
 
 1. **Sign Up / Log In**: Create an account or log in if you already have one.
-2. **Add Clothes**: Start adding items to your wardrobe. You can categorize them by type (e.g., shirts, pants, shoes).
-3. **Create Outfits**: Select pieces from your wardrobe and combine them to create stylish outfits.
-4. **Plan Your Week**: Sync your outfits with your calendar and plan your week’s outfits in advance.
-5. **Get Inspired**: If you're out of ideas, Outfit Mate will suggest random outfits based on your preferences and the weather.
-
-## 📸 Screenshots
-
-Here’s a sneak peek of **Outfit Mate** in action!
-
-![Outfit Mate Interface](#) *(Link to Screenshot)*
+2. **Plan Your Daily Outfit**: Just choose your gender, event type, and age, and Outfit Mate will suggest outfits tailored to your profile.
+3. **Feedback & Inquiry Form**: Users can submit suggestions, feedback, or questions directly through the form available on the website.
+4. **Contact Options**: Users can send feedback via the form, or contact us through email and WhatsApp
 
 ## 🤝 Contributing
 
@@ -106,10 +96,6 @@ We love open-source contributions! If you'd like to contribute to **Outfit Mate*
 4. **Push to your fork** and open a pull request.
 
 For more information about contributing, refer to the [CONTRIBUTING.md](CONTRIBUTING.md) file.
-
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## 🐞 Reporting Issues
 
